@@ -8,6 +8,7 @@ import { MainComponent } from './main/main.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PostsComponent } from './main/posts/posts.component';
 import { RegisterationComponent } from './auth/registeration/registeration.component';
+import { FilterPipe } from './main/posts/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { RegisterationComponent } from './auth/registeration/registeration.compo
     MainComponent,
     ProfileComponent,
     PostsComponent,
-    RegisterationComponent
+    RegisterationComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
