@@ -10,10 +10,13 @@ const routes: Routes = [{path:'auth', component: AuthComponent},
                         {path:'main', component: MainComponent},
                         {path:'profile', component: ProfileComponent},
                         {path:'registeration', component: RegisterationComponent},
-                        {path:'posts', component: PostsComponent}];
+                        {path:'posts', component: PostsComponent},
+                        { path: '', redirectTo: '/auth', pathMatch: 'full' },];
+                        /**or using path: '', component: AuthComponent */
+                        /**since it's lazy loading */
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
