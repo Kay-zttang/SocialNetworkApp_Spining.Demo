@@ -1,1 +1,67 @@
-<p>posts works!</p>
+<!DOCTYPE html>
+<html>
+    <head></head>
+<body>
+
+<div>
+    <input  
+         matInput 
+         [(ngModel)]="searchText" 
+         placeholder="Search" 
+         autocomplete="off"  class="mt-1 col-md-12 mb-3">
+<div class="row" >
+<div class="col-8">
+    <form class="d-inline"  [formGroup]="feedForm"  (ngSubmit)="addfeed()">
+        <div class="form-floating mb-3 mt-3">
+          <input type="text"  class="form-control" name="newfeed" formControlName="newfeed" >
+          <label for="newfeed" class="form-label">Your new post</label>
+        </div>
+        <div class="example-button-row" style="margin-top: 10px">
+            <input type="reset" id="updatesta" class="btn-primary btn" value="Cancel" (click)="resetpost()">
+            <input type="submit" id="updatesta" class="btn-primary btn mat-raised-button" style="margin-left: 15px" value="Post">
+    </div>
+      </form>
+</div>
+<div class="col-4">
+    <label>
+        <img src="https://img.freepik.com/free-vector/contact-icon-3d-vector-illustration-blue-button-with-user-profile-symbol-networking-sites-apps-cartoon-style-isolated-white-background-online-communication-digital-marketing-concept_778687-1715.jpg?w=2000&t=st=1697216021~exp=1697216621~hmac=efe31d394f2c1122f6fd16adaea0adf50d870a0bb97c75be200fd4a4a71f4192"
+        style="max-width: 30%"><br>
+        Click to Load your pic.
+       <input type="file" style="visibility: hidden;"/>
+    </label>
+  </div>
+</div></div>
+<mat-divider></mat-divider>
+<br>
+<h4>Feeds</h4><br>
+  
+  <div class="row row-cols-1 row-cols-md-2 g-4">   
+  <div  *ngFor="let document of documents | filter:  searchText"  >
+   <mat-card
+       matRipple 
+       matRippleColor="rgba(131, 167, 185, 0.22)" 
+       style="padding: 2rem; margin: 2rem; min-width: 20rem;">
+    <mat-card-content style="padding-bottom: 1rem;">
+        <small>{{ document.feedauthor }}</small>
+        <br>
+        <img mat-card-md-image src="{{document.img}}">
+        <br>
+        {{ document.feedtext }}
+        <mat-card-actions>
+        <div class="example-button-row" style="margin-top: 10px">
+        <button mat-raised-button>Edit</button>
+        <button mat-raised-button style="margin-left: 15px">Comment</button>
+    </div></mat-card-actions>
+      </mat-card-content>
+      <mat-card-footer>
+        <small style="padding: 1rem;">{{document.time}}</small>
+      </mat-card-footer>
+    </mat-card>
+
+</div>
+</div>
+
+
+
+</body>
+  </html>

@@ -1,1 +1,109 @@
-<p>profile works!</p>
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row mx-5">
+                <div class="col"><br></div>
+                <div class="col"><br></div>
+              <div class="w-100"></div>
+              <div class="col">
+                <figure class="figure">
+                    <img class="img-fluid" style="max-width: 50%"
+                    src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=2000&t=st=1697213725~exp=1697214325~hmac=daf2d2167ba6a0d1f4351e0b7f1f6c8729e51ff9b67c3d54ef04dafdea97252b" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                </figure>
+                <div class="mx-3  col-md-7">
+                    <label>
+                        <img src="https://img.freepik.com/free-vector/contact-icon-3d-vector-illustration-blue-button-with-user-profile-symbol-networking-sites-apps-cartoon-style-isolated-white-background-online-communication-digital-marketing-concept_778687-1715.jpg?w=2000&t=st=1697216021~exp=1697216621~hmac=efe31d394f2c1122f6fd16adaea0adf50d870a0bb97c75be200fd4a4a71f4192"
+                        style="max-width: 10%">
+                        Update your Profile Pic.
+                       <input type="file" style="visibility: hidden;"/>
+                   </label>
+                </div>
+                
+                <h5>Current Info</h5> <br>
+                Name: {{usernm}} <br>
+                Email: {{useremail}} <br>
+                Phone: {{usertel}} <br>
+                Zipcode: {{userzip}}
+                <br>
+                <br>
+                <div class="mx-0 mb-5 col-md-5">
+                    <input type="button"  id="backtoMain"  
+                    class="form-control btn btn-primary" value="Main Page" (click)="toMain()">
+                    </div>
+              </div>
+              
+              <div class="col">
+                <h5>Update Info</h5> <br>
+                <form class="d-inline" [formGroup]="updateForm" (ngSubmit)="toUpdate()">
+                    <div  class="mx-3 mb-2">
+                        <label for="updatenm" class="form-label">Name </label><br>
+                        <input type="text" class="form-control"
+                        formControlName="updatenm" placeholder="update your name"/>
+                    </div>
+
+                    <div  class="mx-3 mb-2">
+                        <label for="updateemail" class="form-label">Email </label><br>
+                        <input [class.is-invalid]="updateemail.invalid" type="email" class="form-control"
+                        formControlName="updateemail" placeholder="update your email"/>
+                        <div *ngIf="(updateemail.invalid && updateemail.touched) || updateemail.dirty">
+                            <small *ngIf="updateemail?.errors?.['email']" class="text-danger">
+                                Your email address is invalid.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div  class="mx-3 mb-2">
+                        <label for="updatetel" class="form-label">Phone </label><br>
+                        <input [class.is-invalid]="updatetel.invalid" type="tel" class="form-control"
+                        formControlName="updatetel" placeholder="update your phone number"/>
+                        <div *ngIf="(updatetel.invalid && updatetel.touched) || updatetel.dirty">
+                            <small *ngIf="updatetel?.errors?.['pattern']" class="text-danger">
+                                Your phone number is invalid.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div  class="mx-3 mb-2">
+                        <label for="updatezip" class="form-label">Zipcode </label><br>
+                        <input [class.is-invalid]="updatetel.invalid" type="tel" class="form-control"
+                        formControlName="updatezip" placeholder="update your zipcode"/>
+                        <div *ngIf="(updatezip.invalid && updatezip.touched) || updatezip.dirty">
+                            <small *ngIf="updatezip?.errors?.['pattern']" class="text-danger">
+                                Your zipcode is invalid.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div  class="mx-3 mb-3">
+                        <label for="pwd" class="form-label">Password </label><br>
+                        <input [class.is-invalid]="updatepwd.invalid && updatepwd.touched" type="password" class="form-control"
+                        formControlName="updatepwd" placeholder="Your password"/>
+                        <div *ngIf="(updatepwd.invalid && updatepwd.touched) || updatepwd.dirty">
+                            <small *ngIf="updatepwd.errors?.['minlength']" class="text-danger">Password should contain at least 8 digits.</small>
+                        </div>
+                    </div>
+
+                    <div class="mx-3 mb-2">
+                        <input type="submit" id="updateForm" class="form-control btn btn-primary" value="Update">
+                    </div>
+
+                </form>
+                
+              </div>
+              <div class="w-100"></div>
+              <div class="col">
+              </div>
+              <div class="col">
+                
+              </div>
+              
+            </div>
+            
+          </div>
+    </body>
+</html>

@@ -1,1 +1,87 @@
-<p>main works!</p>
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <div class="container">
+            <br>
+            <br>
+            <div class="row">
+              <div class="col">
+                <div class="btn-toolbar" >
+            <button class="btn btn-primary pull-left" id="backtoauth"  
+            class="btn btn-primary" value="Landing" (click)="toLanding()">Log out</button>
+            <button class="btn btn-primary pull-right" id="gotoprofile"  style="margin-left: 15px"
+            class="btn btn-primary" value="Profile" (click)="toProfile()">Profile
+            </button>
+          </div>
+          <br>
+          <figure class="figure mx-3">
+            <img class="img-fluid" style="max-width: 60%"
+            src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?w=2000&t=st=1697213725~exp=1697214325~hmac=daf2d2167ba6a0d1f4351e0b7f1f6c8729e51ff9b67c3d54ef04dafdea97252b" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+          </figure>
+          <h2>{{username}}</h2>
+          <figure class="figure">
+            <img src="https://cdn-icons-png.flaticon.com/128/2190/2190552.png?uid=R24929538&ga=GA1.1.731814946.1695097872&track=ais"
+                        style="max-width: 10%">
+            {{userstatus}}
+          </figure>
+          
+          <form class="d-inline"  [formGroup]="staForm"  (ngSubmit)="updatestatus()">
+            <div class="form-floating mb-3 mt-3 col-md-8">
+              <input type="text"  class="form-control" name="sta" formControlName="sta" >
+              <label for="sta" class="form-label">New Status here.</label>
+            </div>
+
+            <div class=" mb-3 mt-3 col-md-8">
+                <input type="submit" id="updatesta" class="form-control btn btn-primary" value="Update">
+            </div>
+          </form>
+
+          <br>
+         
+          <h4>Following</h4>
+              <div>
+                <div  *ngFor="let profile of profiles" >
+                <mat-card >
+                    <mat-card-content style="padding-bottom: 1rem;">
+                            <img mat-card-md-image 
+                            src={{profile.img}} class="figure-img img-fluid rounded" >
+                            <br>
+                            <h5>{{profile.followname}}</h5>
+                        <figure class="figure">
+                            <img src="https://cdn-icons-png.flaticon.com/128/2190/2190552.png?uid=R24929538&ga=GA1.1.731814946.1695097872&track=ais"
+                        style="max-width: 10%">
+                            {{profile.followstatus}}
+                        </figure>
+                        <mat-card-actions>
+                            <button mat-raised-button (click)="unfollow(profile)">Unfollow</button> 
+                    </mat-card-actions>
+                    </mat-card-content>
+                </mat-card>
+                <br>
+                </div>
+            <form class="d-inline"  [formGroup]="followForm"  (ngSubmit)="add()">
+                <div class="form-floating mb-3 mt-3 col-md-8">
+                  <input type="text"  class="form-control" name="fol" formControlName="fol" >
+                  <label for="fol" class="form-label">Name to follow</label>
+                </div>
+                <div class=" mb-3 mt-3 col-md-8">
+                    <input type="submit" id="updatesta" class="form-control btn btn-primary" value="To Follow">
+                </div>
+              </form>
+              </div>
+              </div>
+              <div class="col-9">
+                <app-posts [message]="userid">
+                </app-posts>
+              </div>
+            </div>
+            
+        </div>
+
+    </body>
+</html>
+
