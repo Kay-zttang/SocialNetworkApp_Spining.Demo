@@ -1,1 +1,48 @@
-<p>auth works!</p>
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+<body>
+    <br>
+
+<div class="row">
+    <br>
+    <div class="col  "style="margin-left: 12%;">
+        <app-registeration></app-registeration>
+    </div>
+    <div class="col " style="margin-right: 7%;">
+        <br><br><br><br><br><br><br><br>
+        <h3 class="mx-3" style="font-size: larger;font-weight: bold;">Login </h3>
+        <form class="form-group  "style="width: 80%;" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <div class="mx-3 mb-3 mt-3">
+                <label for="username" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Username</label>
+                <input [class.is-invalid]="username.invalid && username.touched" type="text" class="form-control input-sm"
+                formControlName="username" placeholder="Your username"/>
+                <div *ngIf="(username.invalid && username.touched) || username.dirty">
+                    <small *ngIf="username.errors?.['required']" class="text-danger">Please enter your username.</small>
+                </div>
+            </div>
+
+            <div class="mx-3 mb-3">
+                <label for="pwd" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Password </label><br>
+                <input [class.is-invalid]="userpwd.invalid && userpwd.touched" type="password" class="form-control input-sm"
+                formControlName="pwd" placeholder="Your password"/>
+                <div *ngIf="(userpwd.invalid && userpwd.touched) || userpwd.dirty">
+                    <small *ngIf="userpwd.errors?.['required']" class="text-danger">Please set your password.</small>
+                </div>
+            </div>
+
+            <div id="div11" class="mx-3 mb-3">
+                <input type="submit"  id="login" [disabled]="loginForm.invalid" class="form-control btn btn-primary" value="Login">
+                <div *ngIf="userpwd.invalid || username.invalid">
+                    <small *ngIf="warningname" class="text-danger">No such registered user found. Please confirm to insert username instead of name.  </small>
+                    <small *ngIf="warningpwd" class="text-danger"> Wrong password.</small>
+                </div>
+            </div>
+    </form>
+    </div>
+    </div>
+
+</body>
+</html>

@@ -1,1 +1,112 @@
-<p>registeration works!</p>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+  <div class="container">
+    <div class="row">
+    <div class="col">
+        <img src="https://img.icons8.com/?size=160&id=YGCpatc8SFgI&format=png" style="height: 4%;">
+        <h4 class="mx-3" style="font-size: larger;font-weight: bold;">Registration </h4>
+        <form class="form-group " style="width: 80%;" [formGroup]="regForm" (ngSubmit)="onSubmit()">
+            <div id="div1" class="mx-3 mb-3 mt-3">
+                <label for="name" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Name</label>
+                <input [class.is-invalid]="name.invalid && name.touched" type="name" class="form-control input-sm"
+                formControlName="name" placeholder="Your name"/>
+                <div *ngIf="(name?.invalid && name?.touched) || name?.dirty">
+                    <small *ngIf="name.errors?.['required']" class="text-danger">Please enter your name.</small>
+                    <small *ngIf="name.errors?.['pattern']" class="text-danger">
+                        Account name can only contain more than two upper or lower case letters and numbers, and not start with a number.
+                    </small>
+                </div>
+            </div>
+
+            <div id="div2" class="mx-3 mb-3">
+                <label for="dispname" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Display Name (Optional)</label><br>
+                <input type="text" id="dispname" class="form-control input-sm" name="dispname" formcontrolname="dispname" 
+                placeholder="Your display name"/>
+            </div>
+
+            <div id="div3" class="mx-3 mb-3">
+                <label for="email" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Email Address </label><br>
+                <input [class.is-invalid]="email.invalid && email.touched" type="email" class="form-control input-sm"
+                formControlName="email" placeholder="Your email"/>
+                <div *ngIf="(email.invalid && email.touched) || email.dirty">
+                    <small *ngIf="email?.errors?.['required']" class="text-danger">Please enter your email.</small>
+                    <small *ngIf="email?.errors?.['email']" class="text-danger">
+                        Your email address is invalid.
+                    </small>
+                </div>
+            </div>
+
+            <div id="div4" class="mx-3 mb-3">
+                <label for="phone" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Phone Number </label><br>
+                <input [class.is-invalid]="phone.invalid && phone.touched" type="tel" class="form-control input-sm"
+                formControlName="phone" placeholder="Your phone number"/>
+                <div *ngIf="(phone.invalid && phone.touched) || phone.dirty">
+                    <small *ngIf="phone.errors?.['required']" class="text-danger">Please enter your phone number.</small>
+                    <small *ngIf="phone.errors?.['pattern']" class="text-danger">
+                        Your phone number is invalid.<br/>
+                        Expect proper format of 10 digits: ex. 123-123-1234.
+                    </small>
+                </div>
+            </div>
+            
+            <div id="div5" class="mx-3 mb-3">
+                <label for="bday" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Date of Birth </label><br>
+                <input [class.is-invalid]="bday.invalid && bday.touched" type="date" class="form-control input-sm"
+                formControlName="bday" />
+                <div *ngIf="(bday.invalid &&bday.touched) || bday.dirty">
+                    <small *ngIf="bday.errors?.['required']" class="text-danger">Please enter your date of birth.</small>
+                    <small *ngIf="bday.errors?.['invaliddate']" class="text-danger">Registration denied Under 18.</small>
+                </div>
+            </div>
+
+            <div id="div6" class="mx-3 mb-3">
+                <label for="zip" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Zipcode </label><br>
+                <input [class.is-invalid]="zip.invalid && zip.touched" type="tel" class="form-control input-sm"
+                formControlName="zip" placeholder="Your zipcode"/>
+                <div *ngIf="(zip.invalid && zip.touched) || zip.dirty">
+                    <small *ngIf="zip.errors?.['required']" class="text-danger">Please enter your zipcode.</small>
+                    <small *ngIf="zip.errors?.['pattern']" class="text-danger">
+                        Your zipcode is invalid.<br/>
+                        Expect proper format of 5 digits: ex. 77005.
+                    </small>
+                </div>
+            </div>
+
+            <div id="div7" class="mx-3 mb-3">
+                <label for="pwd" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Password </label><br>
+                <input [class.is-invalid]="pwd.invalid && pwd.touched" type="password" class="form-control input-sm"
+                formControlName="pwd" placeholder="Your password"/>
+                <div *ngIf="(pwd.invalid && pwd.touched) || pwd.dirty">
+                    <small *ngIf="pwd.errors?.['required']" class="text-danger">Please set your password.</small>
+                    <small *ngIf="pwd.errors?.['minlength']" class="text-danger">Password should contain at least 8 digits.</small>
+                </div>
+            </div>
+
+            <div id="div8" class="mx-3 mb-3">
+                <label for="confpwd" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Password Comfirmation</label><br>
+                <input [class.is-invalid]="confpwd.invalid && confpwd.touched" type="password" class="form-control input-sm"
+                formControlName="confpwd" placeholder="Comfirm your password"/>
+                <div *ngIf="(confpwd.invalid && confpwd.touched) || confpwd.dirty">
+                    <small *ngIf="confpwd.errors?.['required']" class="text-danger">Re-enter your password.</small>
+                    <small *ngIf="confpwd.errors?.['minlength']" class="text-danger">Password should contain at least 8 digits.</small>
+                    <small *ngIf="confpwd.errors?.['passwordMismatch']" class="text-danger">Comfirmed password can not match the password.</small>
+                </div>
+            </div>
+
+            <div id="div9" class="mx-3 mb-3 example-button-row">
+                <input type="reset"  id="resetForm"  class=" btn btn-primary" value="Reset"
+                style="width: 45%;margin-left: 2%; ">
+                <input type="submit"  id="submitForm" [disabled]="regForm.invalid" class="btn btn-primary" 
+                style="margin-left: 15px; width: 45%; " value="Register">
+            </div>
+            
+        </form>
+    </div>
+</div>
+    
+</div>
+
+</body></html>
