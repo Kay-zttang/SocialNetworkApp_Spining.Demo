@@ -17,6 +17,8 @@ import { PostsComponent } from './main/posts/posts.component';
 import { RegisterationComponent } from './auth/registeration/registeration.component';
 import { FilterPipe } from './main/posts/filter.pipe';
 
+import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -26,20 +28,21 @@ import { FilterPipe } from './main/posts/filter.pipe';
     ProfileComponent,
     PostsComponent,
     RegisterationComponent,
-    FilterPipe
+    FilterPipe,
+
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
     NgArrayPipesModule,
-    MatDividerModule
+    MatDividerModule,
+    AppRoutingModule,
   ],
-  providers: [],
+  providers: [ {provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
