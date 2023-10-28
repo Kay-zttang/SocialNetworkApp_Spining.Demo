@@ -70,7 +70,7 @@
 
                     <div  class="mx-3 mb-2">
                         <label for="updatezip" class="form-label">Zipcode </label><br>
-                        <input [class.is-invalid]="updatetel.invalid" type="tel" class="form-control"
+                        <input [class.is-invalid]="updatezip.invalid" type="tel" class="form-control"
                         formControlName="updatezip" placeholder="update your zipcode"/>
                         <div *ngIf="(updatezip.invalid && updatezip.touched) || updatezip.dirty">
                             <small *ngIf="updatezip?.errors?.['pattern']" class="text-danger">
@@ -89,7 +89,7 @@
                     </div>
 
                     <div class="mx-3 mb-2">
-                        <input type="submit" id="updateForm" [disabled]="updateForm.invalid && updateForm.touched" class="form-control btn btn-primary" value="Update">
+                        <input type="submit" id="updatedForm" [disabled]="updateForm.invalid && updateForm.touched" class="form-control btn btn-primary" value="Update">
                     </div>
 
                 </form>

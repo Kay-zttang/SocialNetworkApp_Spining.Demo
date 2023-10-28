@@ -5,7 +5,7 @@ export class FeedInfo {
     public feedtext:string;
     public time: any;
     public timestamp: any;
-    public comment: object;
+    public comment: object|null;
 
     constructor(img:string, id: string,name:string, text: string, time: any, timestamp:any, comment:object){
         this.img = img;

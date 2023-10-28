@@ -1,14 +1,4 @@
-::ng-deep .mat-list[dense] .mat-list-item .mat-line {
-    word-wrap: break-word;
-    white-space: pre-wrap;
-    
-  }
 
-  :host /deep/ .mat-list-item {
-    padding: 0!important;
-    margin: 0!important;
-    height: 50px;
-  }
 
   .mat-list-base[dense] .mat-list-item .mat-list-item-content, .mat-list-base[dense] .mat-list-option .mat-list-item-content{
     padding: 0 !important;

@@ -24,8 +24,16 @@ describe('MainComponent', () => {
   let mockValidator: jasmine.SpyObj<PostsService>;
   class CookieServiceStub{
     get(name: string) {
+      if(name =='maincookie'){
       let val = '{"id":3,"name":"Clementine Bauch","username":"Samantha","email":"Nathan@yesenia.net","address":{"street":"Douglas Extension","suite":"Suite 847","city":"McKenziehaven","zipcode":"59590-4157","geo":{"lat":"-68.6102","lng":"-47.0653"}},"phone":"1-463-123-4447","website":"ramiro.info","company":{"name":"Romaguera-Jacobson","catchPhrase":"Face to face bifurcated interface","bs":"e-enable strategic applications"}}'
-      return val
+      return val}
+      else if(name =='stacookie'){
+        let val = ""
+        return val
+      }
+      else{
+        return null
+      }
     }
     set(name:string, data:any){
       let val = '{"id":3,"name":"Clementine Bauch","username":"Samantha","email":"Nathan@yesenia.net","address":{"street":"Douglas Extension","suite":"Suite 847","city":"McKenziehaven","zipcode":"59590-4157","geo":{"lat":"-68.6102","lng":"-47.0653"}},"phone":"1-463-123-4447","website":"ramiro.info","company":{"name":"Romaguera-Jacobson","catchPhrase":"Face to face bifurcated interface","bs":"e-enable strategic applications"}}'
@@ -33,6 +41,7 @@ describe('MainComponent', () => {
       return val
     }
     deleteAll(){
+      crtcookie = null
     }
   }
 
@@ -133,12 +142,32 @@ describe('MainComponent', () => {
     expect(component.status.value).toBeNull();
   })
   
-  it('Check add followrs trigger functions', ()=>{
+  it('Check add followrs trigger functions: if exist than add', ()=>{
     expect(component.profiles.length).toEqual(0);
     component.child = ChildComponent;
     component.add();
     expect(component.profiles.length).toEqual(1);
 
+  })
+
+  it('Check navigate function', ()=>{
+    component.toLanding();
+    component.toProfile();
+    expect(crtcookie).toBeNull();
+  })
+
+  it('Check add followrs trigger functions: if not exist than not add', ()=>{
+    expect(component.profiles.length).toEqual(0);
+    mockValidator.unData.and.returnValue(of(expecteduser1));
+    component.child = ChildComponent;
+    component.add();
+    expect(component.profiles.length).toEqual(0);
+  })
+
+  it('Check ', ()=>{
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(component.userstatus).toEqual('Face to face bifurcated interface');
   })
 
   const expecteduser: Myfo[] = [
@@ -163,6 +192,8 @@ describe('MainComponent', () => {
       }
   },
   ]
+
+  const expecteduser1: Myfo[] = []
   
   const expectedComment: MyComment[] =[
     {

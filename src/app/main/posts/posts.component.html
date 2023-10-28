@@ -43,31 +43,32 @@
     <mat-card-content style="padding-bottom: 1rem;">
         <small>{{ document.feedauthor }}</small>
         <br>
-        <img #image mat-card-md-image src="{{document.img}}" [hidden]="document.img==null">
+        <img #image mat-card-md-image src="{{document.img}}" [hidden]="document.img=='https://img.freepik.com/free-psd/3d-rendering-firefighter-icon_23-2149859727.jpg?w=996&t=st=1698484207~exp=1698484807~hmac=ff42f9de4fd2a6c3d566bb0bbc13fef1e146e83d1926f871ed2e7bf374b10bbb'">
         <br>
         {{ document.feedtext }}
-        <mat-list [hidden]="document.comment==null">
+        <mat-list [hidden]="document.comment==null" >
         <mat-list-item style="margin: 0%;padding: 0px;">
-          <p>
+          <div *ngIf="document.comment != null">
           <img  matListItemAvatar  style="max-width: 8%; display:inline;" src="https://img.freepik.com/free-psd/3d-illustration-person-with-glasses_23-2149436190.jpg?w=826&t=st=1698445713~exp=1698446313~hmac=1c05338583bca16e6cb7c7f19e29802581f8051c64605b6370abe454b9d99f74">
           <small display:inline style="font-weight: bold;margin-left: 3%;font-size:.9em ;">{{ document.comment[0].email}}</small>
-          <span style=" font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[0].body}}</span></p>
-          <p>
+          <span style=" font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[0].body}}</span>
+          </div>
+          <div *ngIf="document.comment != null">
           <img matListItemAvatar style="max-width: 8%;" src="https://img.freepik.com/free-psd/3d-illustration-person_23-2149436179.jpg?w=826&t=st=1698442950~exp=1698443550~hmac=b8725e03e292a4e23e005d6e34f57767c2d16e82c0cfff6c23f4108931c77eb7">
           <small display:inline style="font-weight: bold;margin-left: 3%;">{{ document.comment[1].email}}</small>
-          <span style="font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[1].body}}</span></p>
-          <p>
+          <span style="font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[1].body}}</span></div>
+          <div *ngIf="document.comment != null">
           <img matListItemAvatar style="max-width: 8%;" src="https://img.freepik.com/free-psd/3d-illustration-person-with-pink-hat_23-2149436195.jpg?w=826&t=st=1698445528~exp=1698446128~hmac=4f2b0bce5f2738cab5d1291a2ec01fb02abf7208fb36b9d105e1cfa0dcb5a55c">
           <small display:inline style="font-weight: bold;margin-left: 3%;">{{ document.comment[2].email}}</small>
-          <span style="font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[2].body}}</span></p>
-          <p>
+          <span style="font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[2].body}}</span></div>
+          <div *ngIf="document.comment != null">
           <img matListItemAvatar style="max-width: 8%;" src="https://img.freepik.com/free-psd/3d-illustration-person_23-2149436182.jpg?w=826&t=st=1698445707~exp=1698446307~hmac=ba2a5dad85341fac3f52059fdcef8dae79a57976fc5c10ff800b32fd36f39df8">
           <small display:inline style="font-weight: bold;margin-left: 3%;">{{ document.comment[3].email}}</small>
-          <span style="font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[3].body}}</span></p>
-          <p>
+          <span style="font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[3].body}}</span></div>
+          <div *ngIf="document.comment != null">
           <img matListItemAvatar style="max-width: 8%;" src="https://img.freepik.com/free-psd/3d-illustration-person-with-long-hair_23-2149436197.jpg?w=826&t=st=1698445553~exp=1698446153~hmac=8efe35b6932b9d4ba1045405d5efbd43789e5ad8ff7c2f2dbf6efadf2700ebb0">
           <small display:inline style="font-weight: bold;margin-left: 3%;">{{ document.comment[4].email}}</small>
-          <span style="font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[4].body}}</span></p>
+          <span style="font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[4].body}}</span></div>
         </mat-list-item>
       </mat-list>
         <mat-card-actions>

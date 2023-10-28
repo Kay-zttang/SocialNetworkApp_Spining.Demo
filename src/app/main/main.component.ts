@@ -57,16 +57,25 @@ export class MainComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(this.currentdata.id){
+    if(this.currentdata.id!=undefined){
       this.username = this.currentdata.name;
       this.userid = this.currentdata.id;
-      this.userstatus = this.currentdata.company.catchPhrase;  
       this.searchfollow((this.userid+1)>10? (this.userid-9):(this.userid+1));
       this.searchfollow((this.userid+2)>10? (this.userid-8):(this.userid+2));
       this.searchfollow((this.userid+3)>10? (this.userid-7):(this.userid+3));  
+      if(this.cServ.get('stacookie').length == 0){
+        this.userstatus = this.currentdata.company.catchPhrase
+      }
+      else{
+        this.userstatus = this.cServ.get('stacookie')
+      }
+      
     }
     else{
       this.username = this.currentdata.name;
+      if(this.cServ.get('stacookie').length != 0){
+        this.userstatus = this.cServ.get('stacookie')
+      }
     }
   }
 

@@ -132,7 +132,29 @@ describe('PostsComponent', () => {
     expect(fixture.debugElement.query(By.css('mat-card'))).toBeNull();
 }));
 
-it('Check ngFor* filter: check for current mat-card in DOM (enter num)', fakeAsync(() => {
+it('Check ngFor* filter: check for filter by name', fakeAsync(() => {
+    const inputElement = fixture.debugElement.query(By.css('input[name="searchplace"]')).nativeElement;
+
+    component.documents = [];
+    fixture.detectChanges();
+    flush();
+    component.searchfeedfol(1,'Leanne Graham');
+    component.searchfeedfol(2,'Ervin Howell');
+    expect(component.documents.length).toEqual(20);
+    fixture.detectChanges()
+    expect(fixture.debugElement.query(By.css('mat-card'))).not.toBeNull();
+
+    inputElement.value = 'Leanne Graham';
+    inputElement.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges()
+    flush()
+    fixture.detectChanges()
+
+    expect(fixture.debugElement.queryAll(By.css('mat-card')).length).toEqual(10);
+}))
+
+it('Check ngFor* filter:  check for filter by text in posts', fakeAsync(() => {
     const inputElement = fixture.debugElement.query(By.css('input[name="searchplace"]')).nativeElement;
 
     component.documents = [];
@@ -141,7 +163,46 @@ it('Check ngFor* filter: check for current mat-card in DOM (enter num)', fakeAsy
     component.searchfeedfol(1,'Leanne Graham');
     expect(component.documents.length).toEqual(10);
     fixture.detectChanges()
+    expect(fixture.debugElement.queryAll(By.css('mat-card')).length).toEqual(10);
+
+    inputElement.value = 'ullam';
+    inputElement.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges()
+    flush()
+    fixture.detectChanges()
+
+    expect(fixture.debugElement.queryAll(By.css('mat-card')).length).toEqual(1);
+}))
+
+it('Check ngFor* filter: check for filter by name', fakeAsync(() => {
+    const inputElement = fixture.debugElement.query(By.css('input[name="searchplace"]')).nativeElement;
+
+    component.documents = [];
+    fixture.detectChanges();
+    flush();
+    component.searchfeedfol(1,'Leanne Graham');
+    component.searchfeedfol(2,'Ervin Howell');
+    expect(component.documents.length).toEqual(20);
+    fixture.detectChanges()
     expect(fixture.debugElement.query(By.css('mat-card'))).not.toBeNull();
+
+    inputElement.value = 'Leanne Graham';
+    inputElement.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges()
+    flush()
+    fixture.detectChanges()
+
+    expect(fixture.debugElement.queryAll(By.css('mat-card')).length).toEqual(10);
+}))
+
+it('Check ngFor* filter: check for no posts', fakeAsync(() => {
+    const inputElement = fixture.debugElement.query(By.css('input[name="searchplace"]')).nativeElement;
+
+    component.documents = null;
+    fixture.detectChanges();
+    expect(!component.documents).toBeTrue();
 
     inputElement.value = '10';
     inputElement.dispatchEvent(new Event('input'));
@@ -153,12 +214,34 @@ it('Check ngFor* filter: check for current mat-card in DOM (enter num)', fakeAsy
     expect(fixture.debugElement.query(By.css('mat-card'))).toBeNull();
 }))
 
+it('FeedForm: Check reset post()', ()=>{
+    const loginFormUserElement1: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#feedForm').querySelectorAll('input')[0];
+    loginFormUserElement1.value = 'Posts test 1';
+    loginFormUserElement1.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(component.newfeed.value).toEqual('Posts test 1');
+    component.resetpost();
+    fixture.detectChanges();
+    expect(component.newfeed.value).toBeNull();
+  })
+
+  it('check the posts added for login user in ngOnInit()',()=>{
+    spyOn(component, 'searchfeed')
+    expect(component.feedid).toEqual({"id":3,"name":"Clementine Bauch","username":"Samantha","email":"Nathan@yesenia.net","address":{"street":"Douglas Extension","suite":"Suite 847","city":"McKenziehaven","zipcode":"59590-4157","geo":{"lat":"-68.6102","lng":"-47.0653"}},"phone":"1-463-123-4447","website":"ramiro.info","company":{"name":"Romaguera-Jacobson","catchPhrase":"Face to face bifurcated interface","bs":"e-enable strategic applications"}})
+    component.ngOnInit();
+    expect(component.searchfeed).toHaveBeenCalled()
+    
+
+  })
+
   const expectprofile=
     {followid: 2, 
       img: 'https://img.freepik.com/free-psd/3d-illustration-p…3489a46c272b1050e369dbfa2d25161a457dc57754e55beef', 
       followname: 'Ervin Howell', 
       followstatus: 'Proactive didactic contingency'
     }
+
+
   
     const expectComment: MyComment[] = [
       {

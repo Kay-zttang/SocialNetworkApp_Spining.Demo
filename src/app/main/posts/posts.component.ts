@@ -40,7 +40,9 @@ export class PostsComponent implements OnInit{
 
    
   ngOnInit(): void {
-    this.searchfeed(this.feedid.id, this.feedid.name);
+
+    if(this.feedid.id >= 1){
+      this.searchfeed(this.feedid.id, this.feedid.name);}
   }
 
 
@@ -56,15 +58,15 @@ export class PostsComponent implements OnInit{
     if(this.newfeed.value){
       this.currenttimestamp = new Date().getTime() ;
       this.currenttime = new Date().toLocaleString();
-      this.documents.push(new FeedInfo(null, null, 
-      this.feedid.name, this.newfeed.value, this.currenttime, this.currenttimestamp, null));
+      this.documents.push(new FeedInfo('https://img.freepik.com/free-psd/3d-rendering-firefighter-icon_23-2149859727.jpg?w=996&t=st=1698484207~exp=1698484807~hmac=ff42f9de4fd2a6c3d566bb0bbc13fef1e146e83d1926f871ed2e7bf374b10bbb', 
+      '0',this.feedid.name, this.newfeed.value, this.currenttime, this.currenttimestamp, null));
       this.checkorder();
       this.feedForm.reset();
     }
     return   
   }
 
-  searchfeed(id: any, name:string){
+  searchfeed(id: number, name:string){
     this.pServ.fData(id).subscribe(data => {
       data.forEach(entry=>{
         this.currenttimestamp = new Date().getTime();

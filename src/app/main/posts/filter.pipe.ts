@@ -21,7 +21,14 @@ function search(entries: any[], search: string) {
     const keys = ['feedauthor','feedtext'] ;
     return keys.some(function (key) {
       const value = obj[key];
+      if (isArray(value)) {
+        return value.some(v => {
+          return v.toLowerCase().includes(search);
+        });
+      }
+      else if (!isArray(value)) {
         return value.toLowerCase().includes(search);
+      }
       
     })
   });
