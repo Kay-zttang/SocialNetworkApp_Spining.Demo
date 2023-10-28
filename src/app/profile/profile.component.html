@@ -39,7 +39,7 @@
               
               <div class="col">
                 <h5>Update Info</h5> <br>
-                <form class="d-inline" [formGroup]="updateForm" (ngSubmit)="toUpdate()">
+                <form class="d-inline" id="updateForm" [formGroup]="updateForm" (ngSubmit)="toUpdate()">
                     <div  class="mx-3 mb-2">
                         <label for="updatenm" class="form-label">Name </label><br>
                         <input type="text" class="form-control"
@@ -89,7 +89,7 @@
                     </div>
 
                     <div class="mx-3 mb-2">
-                        <input type="submit" id="updateForm" class="form-control btn btn-primary" value="Update">
+                        <input type="submit" id="updateForm" [disabled]="updateForm.invalid && updateForm.touched" class="form-control btn btn-primary" value="Update">
                     </div>
 
                 </form>

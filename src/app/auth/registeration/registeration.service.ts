@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ValidatorFn, AbstractControl } from '@angular/forms';
+import { HttpClient,HttpRequest } from '@angular/common/http';
+import { AuthService } from '../auth.service';
+import { map, filter } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterationService {
-
-  constructor() { }
+  tmp: any;
+  tmplen: any;
+  constructor(private http: HttpClient, private aServ: AuthService) { }
 
   passwordMatch(password: string, confirmPassword: string): ValidatorFn {
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
@@ -57,4 +61,6 @@ export class RegisterationService {
       }
     };
   }
+
+  
 }

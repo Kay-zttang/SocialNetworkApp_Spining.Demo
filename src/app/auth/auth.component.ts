@@ -1,8 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType } from '@angular/common/http';
 import { PostsService } from '../main/posts/posts.service';
+import { AuthService } from './auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-auth',
@@ -14,8 +16,11 @@ export class AuthComponent implements OnInit {
   checkuser: boolean;
   warningname: boolean;
   warningpwd: boolean;
+  jsonusers:any;
+  selectuser: any;
+  checkregi = true;
 
-  constructor( private router: Router,private http: HttpClient,private tServ:PostsService ) {
+  constructor( private router: Router,private cServ: CookieService, private aServ:AuthService) {
     this.checkuser = false;
     this.warningname = false;
     this.warningpwd = false;
@@ -25,33 +30,51 @@ export class AuthComponent implements OnInit {
       pwd: new FormControl('',[
         Validators.required]),
     })
+    this.cServ.deleteAll();
+    
+
+    
   }
   ngOnInit(): void {
+  
+    
   }
   
-  onLogin(){
-    this.http.get('https://jsonplaceholder.typicode.com/users').subscribe(response =>{
-      let array = Object.values(response);
-      let ind = array.findIndex(o => o.username == this.loginForm.value.username );
-      if(ind != -1){
-      if(this.loginForm.value.pwd==array[ind].address.street){
+  onLogin() {
+    this.aServ.getData(this.loginForm.value.username).subscribe(data =>{
+      this.selectuser = data;
+      this.check();
+      this.checkregi =  this.checkuser;
+      console.log(this.checkuser);
+      console.log(this.warningpwd);
+      console.log(this.warningname);
+      console.log(this.checkregi);
+     });
+     
+     }
+   
+
+  get username() { return this.loginForm.get('username')!; }
+  get userpwd() {return this.loginForm.get('pwd')!;}
+
+  check(){
+    if(this.selectuser.length == 1){
+      if(this.selectuser[0].address.street == this.loginForm.value.pwd){
         this.checkuser = true;
         this.warningpwd = false;
-        this.tServ.setData(array[ind]);
+        this.cServ.set('maincookie', JSON.stringify(this.selectuser[0]))
         this.router.navigate(['/main']);
       }
       else{
         this.warningpwd = true;
         this.loginForm.reset();
-      };}else{
-        this.warningname = true;
-        this.loginForm.reset();
       }
-  });}
-
-  get username() { return this.loginForm.get('username')!; }
-  get userpwd() {return this.loginForm.get('pwd')!;}
-
+    }
+    else{
+      this.warningname = true;
+      this.loginForm.reset();
+    }
+  }
  
 }
 

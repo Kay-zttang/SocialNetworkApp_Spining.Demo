@@ -8,7 +8,7 @@
     <div class="col">
         <img src="https://img.icons8.com/?size=160&id=YGCpatc8SFgI&format=png" style="height: 4%;">
         <h4 class="mx-3" style="font-size: larger;font-weight: bold;">Registration </h4>
-        <form class="form-group " style="width: 80%;" [formGroup]="regForm" (ngSubmit)="onSubmit()">
+        <form class="form-group " style="width: 80%;" id="regForm" [formGroup]="regForm" (ngSubmit)="onSubmit()">
             <div id="div1" class="mx-3 mb-3 mt-3">
                 <label for="name" class="form-label" style="font-size: 0.8rem;font-weight: bold;">Name</label>
                 <input [class.is-invalid]="name.invalid && name.touched" type="name" class="form-control input-sm"
@@ -101,6 +101,9 @@
                 style="width: 45%;margin-left: 2%; ">
                 <input type="submit"  id="submitForm" [disabled]="regForm.invalid" class="btn btn-primary" 
                 style="margin-left: 15px; width: 45%; " value="Register">
+                <div *ngIf="name.invalid || email.invalid ">
+                    <small *ngIf="uniqueuser" class="text-danger">This username has been Registered. Please log in your Account or change a register username.  </small>
+                </div>
             </div>
             
         </form>

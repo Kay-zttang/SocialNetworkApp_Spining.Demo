@@ -29,7 +29,7 @@
             {{userstatus}}
           </figure>
           
-          <form class="d-inline"  [formGroup]="staForm"  (ngSubmit)="updatestatus()">
+          <form class="d-inline"  [formGroup]="staForm" id="staForm" (ngSubmit)="updatestatus()">
             <div class="form-floating mb-3 mt-3 col-md-8">
               <input type="text"  class="form-control" name="sta" formControlName="sta" >
               <label for="sta" class="form-label">New Status here.</label>
@@ -53,7 +53,7 @@
                             <h5>{{profile.followname}}</h5>
                         <figure class="figure">
                             <img src="https://cdn-icons-png.flaticon.com/128/2190/2190552.png?uid=R24929538&ga=GA1.1.731814946.1695097872&track=ais"
-                        style="max-width: 10%">
+                        style="max-width: 10%" >
                             {{profile.followstatus}}
                         </figure>
                         <mat-card-actions>
@@ -63,13 +63,16 @@
                 </mat-card>
                 <br>
                 </div>
-            <form class="d-inline"  [formGroup]="followForm"  (ngSubmit)="add()">
+            <form class="d-inline"  [formGroup]="followForm" id="followForm"  (ngSubmit)="add()">
                 <div class="form-floating mb-3 mt-3 col-md-8">
                   <input type="text"  class="form-control" name="fol" formControlName="fol" >
-                  <label for="fol" class="form-label">Name to follow</label>
+                  <label for="fol" class="form-label">Search name to follow</label>
                 </div>
                 <div class=" mb-3 mt-3 col-md-8">
-                    <input type="submit" id="updatesta" class="form-control btn btn-primary" value="To Follow">
+                    <input type="submit" id="updatesta" class="form-control btn btn-primary" [disabled]="followForm.invalid" value="To Follow">
+                    <div >
+                      <small *ngIf="existuser" class="text-danger" style="font-size: .7em;">No Such User Found. </small>
+                  </div>
                 </div>
               </form>
               </div>

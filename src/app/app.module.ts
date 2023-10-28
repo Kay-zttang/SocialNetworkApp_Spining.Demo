@@ -5,8 +5,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from "@angular/material/button"; 
+import { MatListModule} from '@angular/material/list';
 import { NgArrayPipesModule } from 'ngx-pipes';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatIconModule} from '@angular/material/icon';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +20,7 @@ import { PostsComponent } from './main/posts/posts.component';
 import { RegisterationComponent } from './auth/registeration/registeration.component';
 import { FilterPipe } from './main/posts/filter.pipe';
 
-import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@angular/common';
+import {  LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -29,7 +32,6 @@ import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@a
     PostsComponent,
     RegisterationComponent,
     FilterPipe,
-
   ],
   imports: [
     BrowserModule,
@@ -38,6 +40,8 @@ import { PathLocationStrategy, LocationStrategy, HashLocationStrategy } from '@a
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,
+    MatIconModule,
+    MatListModule,
     NgArrayPipesModule,
     MatDividerModule,
     AppRoutingModule,

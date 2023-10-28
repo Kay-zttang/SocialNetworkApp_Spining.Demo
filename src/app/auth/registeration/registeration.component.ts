@@ -3,6 +3,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RegisterationService} from "../registeration/registeration.service";
 import {Router} from "@angular/router";
 import { PostsService } from 'src/app/main/posts/posts.service';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-registeration',
@@ -11,9 +13,13 @@ import { PostsService } from 'src/app/main/posts/posts.service';
 })
 export class RegisterationComponent implements OnInit{
     regForm: FormGroup;
+    selectuser: any;
+    uniqueuser: boolean;
 
-    constructor(private rServ: RegisterationService, private router: Router, private tServ:PostsService) {
+    constructor(private rServ: RegisterationService, private router: Router, 
+      private aServ:AuthService, private cServ:CookieService) {
       this.regForm = this.createFormGroup();
+      this.uniqueuser = false;
     }
 
     ngOnInit(): void {
@@ -60,12 +66,29 @@ export class RegisterationComponent implements OnInit{
 
 
     onSubmit() {
-      this.tServ.setData(this.regForm.value);
-      this.router.navigate(['/main']);
+      this.aServ.getData(this.regForm.value.name).subscribe(data =>{
+        this.selectuser = data;
+        console.log(this.selectuser);
+        this.check();
+        console.log(this.uniqueuser);
+       });
+      
     }
 
     onReset() {
       this.regForm.reset();
+  }
+
+  check(){
+    if(this.selectuser.length != 1){
+      this.cServ.set('maincookie', JSON.stringify(this.regForm.value))
+      this.regForm.reset();
+      this.router.navigate(['/main']);
+      }
+    else{
+      this.uniqueuser = true;
+      this.regForm.reset();
+    }
   }
 }
 

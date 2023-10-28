@@ -11,6 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class ProfileComponent implements OnInit{
   profiledata: any;
+  checkusername: string;
   usernm: string;
   useremail: string;
   usertel: string;
@@ -20,7 +21,7 @@ export class ProfileComponent implements OnInit{
 
 
   constructor(private router: Router, private pServ: ProfileService, private cServ: CookieService) {
-    this.profiledata = this.pServ.getData();
+    this.profiledata = JSON.parse(this.cServ.get('maincookie'))
     this.updateForm = new FormGroup({ 
       updatenm: new FormControl('',Validators.compose([
         Validators.minLength(2)])),
@@ -34,7 +35,9 @@ export class ProfileComponent implements OnInit{
         Validators.minLength(8)])
     });
     
+    
     if(this.profiledata){
+      this.checkusername = this.profiledata.username;
       this.usernm = this.profiledata.name;
       this.useremail = this.profiledata.email;
       this.usertel = this.profiledata.phone;
@@ -46,15 +49,8 @@ export class ProfileComponent implements OnInit{
         this.userzip = this.profiledata.address.zipcode;
         this.userpwd = this.profiledata.address.street;
       }
-      this.SetCookies();
     }
-    else{
-      this.usernm = this.cServ.get('infonm');
-      this.useremail = this.cServ.get('infoemail');
-      this.usertel = this.cServ.get('infophone');
-      this.userzip = this.cServ.get('infozip')
-      this.userpwd = this.cServ.get('infopwd')
-    }
+    
   }
   
   ngOnInit(): void {
@@ -68,42 +64,26 @@ export class ProfileComponent implements OnInit{
 
   toUpdate() {
     if(this.updatenm.value){
-      this.usernm = this.updatenm.value;
-      this.cServ.set('infonm', this.usernm)
+      this.usernm = this.updatenm.value
     }
     if(this.updateemail.value){
-      this.useremail = this.updateemail.value;
-      this.cServ.set('infoemail', this.useremail)
+      this.useremail = this.updateemail.value
     }
     if(this.updatetel.value){
-      this.usertel = this.updatetel.value;
-      this.cServ.set('infophone', this.usertel)
+      this.usertel = this.updatetel.value
     }
     if(this.updatezip.value){
-      this.userzip = this.updatezip.value;
-      this.cServ.set('infozip', this.userzip)
+      this.userzip = this.updatezip.value
     }
     if(this.updatepwd.value){
-      this.userpwd = this.updatepwd.value;
-      this.cServ.set('infopwd', this.userpwd)
+      this.userpwd = this.updatepwd.value
     }
     
     this.updateForm.reset();
   }
 
   toMain(){
-    this.pServ.setData(this.profiledata);
-    this.cServ.deleteAll;
     this.router.navigate(['/main']);
-  }
-
-  SetCookies(){
-    this.cServ.set('usercookie', JSON.stringify(this.profiledata))
-    this.cServ.set('infonm', this.usernm)
-    this.cServ.set('infoemail', this.useremail)
-    this.cServ.set('infophone', this.usertel)
-    this.cServ.set('infozip', this.userzip)
-    this.cServ.set('infopwd', this.userpwd)
   }
 
   
