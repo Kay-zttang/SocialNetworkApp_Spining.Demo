@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit{
 
 
   constructor(private router: Router, private pServ: ProfileService, private cServ: CookieService) {
-    this.profiledata = JSON.parse(this.cServ.get('maincookie'))
+    //this.profiledata = JSON.parse(this.cServ.get('maincookie'))
     this.updateForm = new FormGroup({ 
       updatenm: new FormControl('',Validators.compose([
         Validators.minLength(2)])),
@@ -35,21 +35,16 @@ export class ProfileComponent implements OnInit{
         Validators.minLength(8)])
     });
     
-    
-    if(this.profiledata){
-      this.checkusername = this.profiledata.username;
-      this.usernm = this.profiledata.name;
-      this.useremail = this.profiledata.email;
-      this.usertel = this.profiledata.phone;
-      if(this.profiledata.zip){
-        this.userzip = this.profiledata.zip;
-        this.userpwd = this.profiledata.pwd;
-      }
-      else{
-        this.userzip = this.profiledata.address.zipcode;
-        this.userpwd = this.profiledata.address.street;
-      }
-    }
+    this.pServ.Useremail().subscribe(res=>{
+      this.usernm = Object.values(res)[0];
+      this.useremail = Object.values(res)[1];
+    });
+    this.pServ.Userphone().subscribe(res=>{
+      this.usertel = Object.values(res)[1];
+    });
+    this.pServ.Userzipcode().subscribe(res=>{
+      this.userzip = Object.values(res)[1];
+    })
     
   }
   
@@ -64,19 +59,27 @@ export class ProfileComponent implements OnInit{
 
   toUpdate() {
     if(this.updatenm.value){
-      this.usernm = this.updatenm.value
+      this.usernm = this.updatenm.value;
     }
     if(this.updateemail.value){
-      this.useremail = this.updateemail.value
+      this.useremail = this.updateemail.value;
+      this.pServ.NewEmail(this.updateemail.value).subscribe(res=>{
+      });
     }
     if(this.updatetel.value){
-      this.usertel = this.updatetel.value
+      this.usertel = this.updatetel.value;
+      this.pServ.NewPhone(this.updatetel.value).subscribe(res=>{
+      });
     }
     if(this.updatezip.value){
-      this.userzip = this.updatezip.value
+      this.userzip = this.updatezip.value;
+      this.pServ.NewZipcode(this.updatezip.value).subscribe(res=>{
+      });
     }
     if(this.updatepwd.value){
       this.userpwd = this.updatepwd.value
+      this.pServ.NewPwd(this.updatepwd.value).subscribe(res=>{
+      });
     }
     
     this.updateForm.reset();

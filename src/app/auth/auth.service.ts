@@ -17,7 +17,7 @@ export class AuthService {
   url = 'https://jsonplaceholder.typicode.com/users';
   constructor(private http: HttpClient) { }
 
-  getUsers() {
+  /*getUsers() {
     const req = new HttpRequest('GET', this.url, {
       reportProgress: true
     });
@@ -32,6 +32,25 @@ export class AuthService {
     }
 
     return apiObserverable.pipe(catchError(error => of<MyData[]>([])));
-  }
+  }*/
   
+  loginUser(username, userpwd){
+    return this.http.post("http://localhost:3000/login",
+    {
+        "username": username,
+        "password": userpwd,
+    },{ withCredentials: true })
+  }
+
+  regiUser(username, useremail, userdob, userphone, userzipcode, userpwd){
+    return this.http.post("http://localhost:3000/register",
+    {
+        "username": username,
+        "email": useremail,
+        "dob": userdob,
+        "phone": userphone,
+        "zipcode":userzipcode,
+        "password": userpwd,
+    },{ withCredentials: true })
+  }
 }

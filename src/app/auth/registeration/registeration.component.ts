@@ -66,11 +66,20 @@ export class RegisterationComponent implements OnInit{
 
 
     onSubmit() {
-      this.aServ.getData(this.regForm.value.name).subscribe(data =>{
-        this.selectuser = data;
+      this.aServ.regiUser(this.regForm.value.name,this.regForm.value.email,this.regForm.value.bday,this.regForm.value.phone,this.regForm.value.zip,this.regForm.value.pwd).subscribe(res =>{
+          let msg = Object.values(res);
+          if(msg[1]=='success'){
+            //console.log('correct login')
+            this.login();
+          }
+          else if(msg[1]=='failed'){
+            this.uniqueuser = true;
+            this.regForm.reset();
+          }
+        /*this.selectuser = data;
         console.log(this.selectuser);
         this.check();
-        console.log(this.uniqueuser);
+        console.log(this.uniqueuser);*/
        });
       
     }
@@ -79,16 +88,14 @@ export class RegisterationComponent implements OnInit{
       this.regForm.reset();
   }
 
-  check(){
-    if(this.selectuser.length != 1){
-      this.cServ.set('maincookie', JSON.stringify(this.regForm.value))
-      this.regForm.reset();
-      this.router.navigate(['/main']);
-      }
-    else{
-      this.uniqueuser = true;
-      this.regForm.reset();
-    }
+  login(){
+    this.aServ.loginUser(this.regForm.value.name, this.regForm.value.pwd).subscribe(
+      res => {
+        let msg = Object.values(res);
+        this.cServ.set('maincookie', JSON.stringify(msg))
+        this.regForm.reset();
+        this.router.navigate(['/main']);
+      });
   }
 }
 

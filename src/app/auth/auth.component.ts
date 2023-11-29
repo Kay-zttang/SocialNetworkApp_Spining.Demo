@@ -41,40 +41,31 @@ export class AuthComponent implements OnInit {
   }
   
   onLogin() {
-    this.aServ.getData(this.loginForm.value.username).subscribe(data =>{
-      this.selectuser = data;
-      this.check();
-      this.checkregi =  this.checkuser;
-      console.log(this.checkuser);
-      console.log(this.warningpwd);
-      console.log(this.warningname);
-      console.log(this.checkregi);
-     });
+    this.aServ.loginUser(this.loginForm.value.username, this.loginForm.value.pwd).subscribe(
+      res => {
+        let msg = Object.values(res);
+        if(msg[1]=='success'){
+          //console.log('correct login')
+          this.checkuser = true;
+          this.warningpwd = false;
+          this.cServ.set('maincookie', JSON.stringify(msg))
+          this.router.navigate(['/main']);
+        }
+        else if(msg[1]=='password not correct'){
+          this.warningpwd = true;
+          this.loginForm.reset();
+        }
+        else if(msg[1]=='user does not exist'){
+          this.warningname = true;
+          this.loginForm.reset();
+        }
+      });
      
      }
    
 
   get username() { return this.loginForm.get('username')!; }
   get userpwd() {return this.loginForm.get('pwd')!;}
-
-  check(){
-    if(this.selectuser.length == 1){
-      if(this.selectuser[0].address.street == this.loginForm.value.pwd){
-        this.checkuser = true;
-        this.warningpwd = false;
-        this.cServ.set('maincookie', JSON.stringify(this.selectuser[0]))
-        this.router.navigate(['/main']);
-      }
-      else{
-        this.warningpwd = true;
-        this.loginForm.reset();
-      }
-    }
-    else{
-      this.warningname = true;
-      this.loginForm.reset();
-    }
-  }
  
 }
 
