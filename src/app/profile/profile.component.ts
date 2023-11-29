@@ -13,6 +13,7 @@ export class ProfileComponent implements OnInit{
   profiledata: any;
   checkusername: string;
   usernm: string;
+  useravatar:string;
   useremail: string;
   usertel: string;
   userzip: string;
@@ -44,6 +45,9 @@ export class ProfileComponent implements OnInit{
     });
     this.pServ.Userzipcode().subscribe(res=>{
       this.userzip = Object.values(res)[1];
+    })
+    this.pServ.Useravatar().subscribe(res=>{
+      this.useravatar = Object.values(res)[1];
     })
     
   }

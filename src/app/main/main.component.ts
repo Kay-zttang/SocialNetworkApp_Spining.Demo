@@ -27,6 +27,7 @@ export class MainComponent implements OnInit{
 
   username: any;
   userstatus: string;
+  useravatar:string;
   userid:number;
   staForm: FormGroup;
 
@@ -57,7 +58,10 @@ export class MainComponent implements OnInit{
       this.userstatus = Object.values(res)[1];
     });
 
-      this.currentdata = JSON.parse(this.cServ.get('maincookie'));
+    this.pServ.Useravatar().subscribe(res=>{
+      this.useravatar = Object.values(res)[1];
+    });
+
     this.existuser = false;
 
   }

@@ -15,6 +15,11 @@ export class ProfileService {
     return this.http.get("http://localhost:3000/email/",{ withCredentials: true })
   }
 
+  Useravatar(){
+    //const params = new HttpParams().set('user', username);
+    return this.http.get("http://localhost:3000/avatar/",{ withCredentials: true })
+  }
+
   Userphone(){
     //const params = new HttpParams().set('user', username);
     return this.http.get("http://localhost:3000/phone/",{ withCredentials: true })
