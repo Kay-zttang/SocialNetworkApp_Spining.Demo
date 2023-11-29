@@ -65,37 +65,17 @@ export class PostsService {
     return this.http.delete("http://localhost:3000/following/"+name,{ withCredentials: true })
   }
 
+  Userarticle(id:string = ''){
+    return this.http.get("http://localhost:3000/articles/"+id,{ withCredentials: true});
+  }
+
+  Addarticle(message){
+      return this.http.post("http://localhost:3000/article",
+      { "text": message,
+      },{ withCredentials: true })
+  }
   /////////////////////////////////////////////////////////////////
 
-  public fData(idFilter: number = 0): Observable<Myfeed[]> {
-    let apiObserverable = this.http.get<Myfeed[]>('https://jsonplaceholder.typicode.com/posts');
-
-    if (idFilter != 0) {
-      apiObserverable = apiObserverable.pipe(map(value => value.filter(o => o.userId == idFilter)));
-    }
-
-    return apiObserverable.pipe(catchError(error => of<Myfeed[]>([])));
-  };
-
-  public uData(idFilter: number = 0): Observable<Myfo[]> {
-    let apiObserverable = this.http.get<Myfo[]>('https://jsonplaceholder.typicode.com/users');
-
-    if (idFilter != 0) {
-      apiObserverable = apiObserverable.pipe(map(value => value.filter(o => o.id == idFilter)));
-    }
-
-    return apiObserverable;
-  };
-
-  public unData(nameFilter: String=''): Observable<Myfo[]> {
-    let apiObserverable = this.http.get<Myfo[]>('https://jsonplaceholder.typicode.com/users');
-
-    if (nameFilter != '') {
-      apiObserverable = apiObserverable.pipe(map(value => value.filter(o => o.name == nameFilter)));
-    }
-
-    return apiObserverable;
-  };
 
   public commentData(idFilter: number = 0): Observable<MyComment[]> {
     let apiObserverable = this.http.get<MyComment[]>('https://jsonplaceholder.typicode.com/comments');

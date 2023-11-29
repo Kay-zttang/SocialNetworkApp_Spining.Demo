@@ -69,7 +69,6 @@ export class MainComponent implements OnInit{
         this.pServ.Userstatus(entry).subscribe(data=>{
           this.pServ.Useravatar(entry).subscribe(img =>{
             this.profiles.push(new FollowInfo(i,Object.values(img)[1],entry, Object.values(data)[1]))
-            //this.child.searchfeed(i,entry);
             i = i+1;
           })
       })})
@@ -104,26 +103,21 @@ export class MainComponent implements OnInit{
     this.router.navigate(['/profile']);
   }
 
-  SetCookies(){
-    this.cServ.set('maincookie', JSON.stringify(this.currentdata))
-  }
-
   add() {
     this.pServ.Newfollowing(this.morefollow.value).subscribe(res=>{
       if(Object.entries(res).length!=3){
         if(Object.values(res)[1].length == this.profiles.length){
-          console.log("already following!") //here wait to transfer to error msg.
+          //console.log("already following!") //here wait to transfer to error msg.
         }
         else{
         this.existuser = false;
         this.pServ.Userstatus(this.morefollow.value).subscribe(data=>{
           this.pServ.Useravatar(Object.values(data)[0]).subscribe(img =>{
             this.profiles.push(new FollowInfo(this.profiles.length,Object.values(img)[1], Object.values(data)[0], Object.values(data)[1]))
-            //this.child.searchfeed(i,entry);
+            this.child.searchfeed(Object.values(data)[0]);
          })
       })}
         this.followForm.reset();
-        //this.child.searchfeedfol(data[0].id,data[0].name);
       }
       else{
         this.existuser = true;
@@ -138,15 +132,9 @@ export class MainComponent implements OnInit{
     this.profiles = this.profiles.filter(p => p.followname != profile.followname);
     this.pServ.Deletefollowing(profile.followname).subscribe(res=>{
     })
-    //this.child.deletefollowfeed(profile)
+    this.child.deletefollowfeed(profile)
   }
   
-
-  followadd(id, name, followstatus){
-    this.profiles.push(new FollowInfo(id,"https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436178.jpg?w=2000&t=st=1697213729~exp=1697214329~hmac=fdb0aa51adee2af3489a46c272b1050e369dbfa2d25161a457dc57754e55beef",
-      name, followstatus))
-      this.child.searchfeedfol(id,name);
-  }
 
 
 }

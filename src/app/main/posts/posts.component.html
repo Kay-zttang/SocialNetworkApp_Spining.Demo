@@ -43,7 +43,7 @@
     <mat-card-content style="padding-bottom: 1rem;">
         <small>{{ document.feedauthor }}</small>
         <br>
-        <img #image mat-card-md-image src="{{document.img}}" [hidden]="document.img=='https://img.freepik.com/free-psd/3d-rendering-firefighter-icon_23-2149859727.jpg?w=996&t=st=1698484207~exp=1698484807~hmac=ff42f9de4fd2a6c3d566bb0bbc13fef1e146e83d1926f871ed2e7bf374b10bbb'">
+        <img #image  style="max-width: 17rem;" src="{{document.img}}" [hidden]="document.img=='https://img.freepik.com/free-psd/3d-rendering-firefighter-icon_23-2149859727.jpg?w=996&t=st=1698484207~exp=1698484807~hmac=ff42f9de4fd2a6c3d566bb0bbc13fef1e146e83d1926f871ed2e7bf374b10bbb'">
         <br>
         {{ document.feedtext }}
         <mat-list [hidden]="document.comment==null" >

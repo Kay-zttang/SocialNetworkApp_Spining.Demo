@@ -17,13 +17,7 @@ export class AuthService {
   url = 'https://jsonplaceholder.typicode.com/users';
   constructor(private http: HttpClient) { }
 
-  /*getUsers() {
-    const req = new HttpRequest('GET', this.url, {
-      reportProgress: true
-    });
-    return this.http.request(req)
-  }
-
+  /*
   public getData(nameFilter: string = ''): Observable<MyData[]> {
     let apiObserverable = this.http.get<MyData[]>(this.url);
 
