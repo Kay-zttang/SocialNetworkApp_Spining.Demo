@@ -1,6 +1,6 @@
 import { Injectable, Output ,EventEmitter} from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpParams} from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
@@ -35,6 +35,37 @@ export class PostsService {
   constructor(private http: HttpClient
   ) { }
 
+  logoutUser(){
+    return this.http.put("http://localhost:3000/logout",{},{ withCredentials: true })
+  }
+
+  Userstatus(name: string = ''){
+      return this.http.get("http://localhost:3000/headline/"+name,{  withCredentials: true});
+  }
+
+  Useravatar(name: string = ''){
+      return this.http.get("http://localhost:3000/avatar/"+name,{ withCredentials: true});
+  }
+
+  Newstatus(status){
+    return this.http.put("http://localhost:3000/headline",
+    {"headline": status},{ withCredentials: true })
+  }
+
+  Userfollwing(){
+    //const params = new HttpParams().set('user', username);
+    return this.http.get("http://localhost:3000/following/",{ withCredentials: true })
+  }
+
+  Newfollowing(name){
+    return this.http.put("http://localhost:3000/following/"+name,{},{ withCredentials: true })
+  }
+
+  Deletefollowing(name){
+    return this.http.delete("http://localhost:3000/following/"+name,{ withCredentials: true })
+  }
+
+  /////////////////////////////////////////////////////////////////
 
   public fData(idFilter: number = 0): Observable<Myfeed[]> {
     let apiObserverable = this.http.get<Myfeed[]>('https://jsonplaceholder.typicode.com/posts');

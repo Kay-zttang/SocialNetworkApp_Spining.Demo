@@ -62,22 +62,21 @@ export class ProfileComponent implements OnInit{
       this.usernm = this.updatenm.value;
     }
     if(this.updateemail.value){
-      this.useremail = this.updateemail.value;
       this.pServ.NewEmail(this.updateemail.value).subscribe(res=>{
+        this.useremail = Object.values(res)[1];
       });
     }
     if(this.updatetel.value){
-      this.usertel = this.updatetel.value;
       this.pServ.NewPhone(this.updatetel.value).subscribe(res=>{
+        this.usertel = Object.values(res)[1];
       });
     }
     if(this.updatezip.value){
-      this.userzip = this.updatezip.value;
       this.pServ.NewZipcode(this.updatezip.value).subscribe(res=>{
+        this.userzip = Object.values(res)[1];
       });
     }
     if(this.updatepwd.value){
-      this.userpwd = this.updatepwd.value
       this.pServ.NewPwd(this.updatepwd.value).subscribe(res=>{
       });
     }
