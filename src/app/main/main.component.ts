@@ -118,7 +118,7 @@ export class MainComponent implements OnInit{
         this.pServ.Userstatus(this.morefollow.value).subscribe(data=>{
           this.pServ.Useravatar(Object.values(data)[0]).subscribe(img =>{
             this.profiles.push(new FollowInfo(this.profiles.length,Object.values(img)[1], Object.values(data)[0], Object.values(data)[1]))
-            this.child.searchfeed(Object.values(data)[0]);
+            this.child.searchfeed();
          })
       })}
         this.followForm.reset();
@@ -135,8 +135,9 @@ export class MainComponent implements OnInit{
   unfollow(profile){
     this.profiles = this.profiles.filter(p => p.followname != profile.followname);
     this.pServ.Deletefollowing(profile.followname).subscribe(res=>{
+      this.child.deletefollowfeed(profile)
     })
-    this.child.deletefollowfeed(profile)
+    
   }
   
 

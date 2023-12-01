@@ -20,7 +20,7 @@
                         <img src="https://img.freepik.com/free-vector/contact-icon-3d-vector-illustration-blue-button-with-user-profile-symbol-networking-sites-apps-cartoon-style-isolated-white-background-online-communication-digital-marketing-concept_778687-1715.jpg?w=2000&t=st=1697216021~exp=1697216621~hmac=efe31d394f2c1122f6fd16adaea0adf50d870a0bb97c75be200fd4a4a71f4192"
                         style="max-width: 10%">
                         Update your Profile Pic.
-                       <input type="file" style="visibility: hidden;"/>
+                       <input type="file" style="visibility: hidden;" accept="image/*" (change)="handleImageChange($event)"/>
                    </label>
                 </div>
                 

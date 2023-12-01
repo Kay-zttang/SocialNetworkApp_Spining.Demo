@@ -1,20 +1,24 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { PostsService } from './posts.service';
 import { Router } from '@angular/router';
 import { FeedInfo } from './feed-info';
 import { FormGroup,FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table'
+import { PageEvent } from '@angular/material/paginator';
+import { Observable } from 'rxjs';
 
 
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.css'],
+  styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit{
   @Input() message : number;
+  searchKey = new FormControl('');
   documents: FeedInfo[]=[];
   feedForm: FormGroup;
   loginuser: string;
@@ -23,7 +27,10 @@ export class PostsComponent implements OnInit{
   searchText=undefined;
   feedother: any;
   crycomment: any;
-
+  feedimg: string;
+  totalRecords: number = 0;
+  pageIndex = 0;
+  pageSize = 10;
        
   constructor( private pServ: PostsService,private router:Router,
     private http: HttpClient,private cServ: CookieService) {
@@ -35,16 +42,27 @@ export class PostsComponent implements OnInit{
    
   ngOnInit(): void {
 
-    this.pServ.Userarticle().subscribe(res=>{
-      let i = 1;
+    this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, null).subscribe(res=>{
+      this.totalRecords = Object.values(res)[1];
       Object.values(res)[0].forEach(entry=>{
         this.loginuser = entry.author; 
+        if(entry.comments.length==0){
+          entry.comments = null
+        }
         this.documents.push(new FeedInfo(entry.pic,
-        entry.id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), null));
+        entry.id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
         this.checkorder()
        ;})
+       
+       
     })
+
+    
+
+    
   }
+
+  
 
 
   get newfeed(){
@@ -57,31 +75,71 @@ export class PostsComponent implements OnInit{
 
   addfeed(){
     if(this.newfeed.value){
-      this.pServ.Addarticle(this.newfeed.value).subscribe(res=>{
-        console.log(res);
-        this.currenttimestamp = new Date().getTime();
-        this.currenttime = new Date().toDateString();
-        this.documents.push(new FeedInfo('https://img.freepik.com/free-psd/3d-rendering-firefighter-icon_23-2149859727.jpg?w=996&t=st=1698484207~exp=1698484807~hmac=ff42f9de4fd2a6c3d566bb0bbc13fef1e146e83d1926f871ed2e7bf374b10bbb', 
-        this.documents.length.toString(),this.loginuser, this.newfeed.value, this.currenttime, this.currenttimestamp, null));
-        this.checkorder();
-        this.feedForm.reset();
-      })
-    }
-    return   
-  }
-
-  searchfeed(name:string){
-    this.pServ.Userarticle(name).subscribe(data => {
-      if(Object.values(data)[0]!='no such article'){
-        Object.values(data)[0].forEach(entry=>{
-          this.documents.push(new FeedInfo(entry.pic,
-            entry.id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), null));
-            this.checkorder();
+      const fd = new FormData();
+      if(this.feedimg){//text and img post
+        fd.append('image', this.feedimg);
+        fd.append('text', this.newfeed.value);
+        this.pServ.Addarticle(fd).subscribe(res=>{
+          this.searchfeed();
+          this.feedForm.reset();
+          this.feedimg = null;
         })
       }
-    })
+      else{//only textposted
+        fd.append('text', this.newfeed.value);
+        this.pServ.Addarticle(fd).subscribe(res=>{
+          let articleall = Object.values(res)[0]
+          let thearticle = articleall[articleall.length-1]
+          this.currenttimestamp = new Date().getTime();
+          this.currenttime = new Date().toDateString();
+          this.documents.push(new FeedInfo(thearticle.pic, 
+          this.documents.length.toString(),thearticle.author, thearticle.text, this.currenttime, this.currenttimestamp, null));
+          this.checkorder();
+          this.feedForm.reset();
+        })
+    }
+    this.totalRecords = this.documents.length
+    }
+    return   
+
+  }
+  
+
+  searchfeed(){
+    this.totalRecords = 0;
+    this.pageIndex = 0;
+    this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, null).subscribe(res=>{
+      this.documents = [];
+      this.totalRecords = Object.values(res)[1];
+      Object.values(res)[0].forEach(entry=>{
+        this.loginuser = entry.author; 
+        if(entry.comments.length==0){
+          entry.comments = null
+        }
+        this.documents.push(new FeedInfo(entry.pic,
+        entry.id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
+        this.checkorder()
+       ;})
+      })
   }
 
+  searchByName() {
+    this.totalRecords = 0;
+    this.pageIndex = 0;
+    this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, this.searchKey.value).subscribe(res=>{
+      this.documents = [];
+      this.totalRecords = Object.values(res)[1];
+      Object.values(res)[0].forEach(entry=>{
+        this.loginuser = entry.author; 
+        if(entry.comments.length==0){
+          entry.comments = null
+        }
+        this.documents.push(new FeedInfo(entry.pic,
+        entry.id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
+        this.checkorder()
+       ;})
+      })
+  }
   
   checkorder(){
     this.documents.sort(function(y, x){
@@ -90,14 +148,51 @@ export class PostsComponent implements OnInit{
   }
 
   deletefollowfeed(profile){
-    let tmp = profile.followname;
-    this.documents = this.documents.filter(d => d.feedauthor != tmp);
+    this.totalRecords = 0;
+    this.pageIndex = 0;
+    this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, null).subscribe(res=>{
+      this.documents = [];
+      this.totalRecords = Object.values(res)[1];
+      Object.values(res)[0].forEach(entry=>{
+        this.loginuser = entry.author; 
+        if(entry.comments.length==0){
+          entry.comments = null
+        }
+        this.documents.push(new FeedInfo(entry.pic,
+        entry.id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
+        this.checkorder()
+       ;})
+      })
 
   }
 
+  edit(document){
+    //this.profiles = this.profiles.filter(p => p.followname != profile.followname);
+    //this.pServ.Deletefollowing(profile.followname).subscribe(res=>{
+    //})
+    //this.child.deletefollowfeed(profile)
+  }
 
-
-    
+  handleFeedImageChange(e){
+    //console.log(e.target.files[0])
+    this.feedimg = e.target.files[0]
+  }
   
+  handlePageEvent(e: PageEvent) {
+    this.documents = [];
+    this.pageIndex = e.pageIndex ;
+    this.pageSize = e.pageSize;
+    this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, null).subscribe(res=>{
+      Object.values(res)[0].forEach(entry=>{
+        this.loginuser = entry.author; 
+        if(entry.comments.length==0){
+          entry.comments = null
+        }
+        this.documents.push(new FeedInfo(entry.pic,
+        entry.id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
+        this.checkorder()
+       ;})
+  })
+}
 
 }

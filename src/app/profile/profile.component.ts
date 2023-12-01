@@ -2,7 +2,10 @@ import { Component, OnInit} from '@angular/core';
 import { ProfileService } from './profile.service';
 import {Router} from "@angular/router";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { HttpClient } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +24,7 @@ export class ProfileComponent implements OnInit{
   updateForm: FormGroup;
 
 
-  constructor(private router: Router, private pServ: ProfileService, private cServ: CookieService) {
+  constructor(private router: Router, private pServ: ProfileService, private cServ: CookieService,private http: HttpClient) {
     //this.profiledata = JSON.parse(this.cServ.get('maincookie'))
     this.updateForm = new FormGroup({ 
       updatenm: new FormControl('',Validators.compose([
@@ -49,6 +52,7 @@ export class ProfileComponent implements OnInit{
     this.pServ.Useravatar().subscribe(res=>{
       this.useravatar = Object.values(res)[1];
     })
+    
     
   }
   
@@ -92,6 +96,13 @@ export class ProfileComponent implements OnInit{
     this.router.navigate(['/main']);
   }
 
-  
+  handleImageChange(e){
+    //console.log(e.target.files[0])
+    const fd = new FormData();
+    fd.append('image', e.target.files[0]);
+    this.http.put("http://localhost:3000/avatar", fd,{ withCredentials: true }).subscribe(res=>{
+      this.useravatar = Object.values(res)[1];
+    });
+  }
 
 }

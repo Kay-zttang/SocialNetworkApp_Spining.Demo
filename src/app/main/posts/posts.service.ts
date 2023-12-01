@@ -65,14 +65,20 @@ export class PostsService {
     return this.http.delete("http://localhost:3000/following/"+name,{ withCredentials: true })
   }
 
-  Userarticle(id:string = ''){
-    return this.http.get("http://localhost:3000/articles/"+id,{ withCredentials: true});
+
+  Userarticle(id:string = '', currentPage, pageSize, searchkey){
+    if(searchkey == null){
+      return this.http.get("http://localhost:3000/articles/"+id+"?page="+currentPage+"&limit="+pageSize+"&q=",{ withCredentials: true});
+    }
+    else{
+      return this.http.get("http://localhost:3000/articles/"+id+"?page="+currentPage+"&limit="+pageSize+"&q="+searchkey,{ withCredentials: true});
+    }
+    
   }
 
-  Addarticle(message){
+  Addarticle(fd){
       return this.http.post("http://localhost:3000/article",
-      { "text": message,
-      },{ withCredentials: true })
+      fd,{ withCredentials: true })
   }
   /////////////////////////////////////////////////////////////////
 

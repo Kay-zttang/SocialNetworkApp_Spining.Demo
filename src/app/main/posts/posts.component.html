@@ -9,7 +9,7 @@
          placeholder="Search" 
          autocomplete="off"  class="mt-1 col-md-12 mb-3" name="searchplace">
 <div class="row" >
-<div class="col-8">
+<div class="col-10">
     <form class="d-inline" id = 'feedForm' [formGroup]="feedForm"  (ngSubmit)="addfeed()">
         <div class="form-floating mb-3 mt-3">
           <input type="text"  class="form-control" name="newfeed" formControlName="newfeed" >
@@ -21,25 +21,73 @@
     </div>
       </form>
 </div>
-<div class="col-4">
+<div class="col-2" >
     <label>
         <img src="https://img.freepik.com/free-vector/contact-icon-3d-vector-illustration-blue-button-with-user-profile-symbol-networking-sites-apps-cartoon-style-isolated-white-background-online-communication-digital-marketing-concept_778687-1715.jpg?w=2000&t=st=1697216021~exp=1697216621~hmac=efe31d394f2c1122f6fd16adaea0adf50d870a0bb97c75be200fd4a4a71f4192"
         style="max-width: 30%"><br>
-        Click to Load your pic.
-       <input type="file" style="visibility: hidden;"/>
+        Upload your pic.
+       <input type="file" style="visibility: hidden;" accept="image/*" (change)="handleFeedImageChange($event)"/>
     </label>
   </div>
 </div></div>
+<mat-form-field class="example-form-field">
+  <mat-label>Search By Car Name</mat-label>
+  <input matInput type="text" [formControl]="searchKey">
+  <button  matSuffix mat-icon-button aria-label="Clear" (click)="searchByName()" >
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-form-field>
 <mat-divider></mat-divider>
-<br>
-<h4>Feeds</h4><br>
+
+<mat-toolbar color="primary" style="height: 50px;">
+  <span>Feeds</span>
+</mat-toolbar>
+
+
+
+<div style=" justify-items: center; ">
+  <div class="my-container-wrap" >
+    <mat-card class="example-card" *ngFor="let document of documents | filter:  searchText">
+      <mat-card-header style="margin-bottom: 8px;" >
+        <mat-card-title >{{ document.feedauthor }}</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image src="{{ document.img }}" [hidden]="document.img=='https://img.freepik.com/free-psd/3d-rendering-firefighter-icon_23-2149859727.jpg?w=996&t=st=1698484207~exp=1698484807~hmac=ff42f9de4fd2a6c3d566bb0bbc13fef1e146e83d1926f871ed2e7bf374b10bbb'"/>
+      <mat-card-content>
+        <p>{{document.feedtext}}</p>
+        <p align="right" style="font-size: small;">{{document.time}}</p>
+        <mat-card-actions>
+          <div class="example-button-row" style="margin-top: 10px">
+          <button mat-raised-button (click)="edit(document)">Edit</button>
+          <button mat-raised-button style="margin-left: 15px" >Comment</button>
+      </div></mat-card-actions>
+      </mat-card-content>
+      <mat-card-footer style="margin-bottom: 5px;">
+        <small style="padding: 1rem; margin-bottom: 1rem;">Footer here</small>
+      </mat-card-footer>
+    </mat-card>
+    
+  </div>
+  <div class="my-container-wrap-center">
+    <mat-paginator
+    [length]="totalRecords"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 15]"
+    [pageIndex]="pageIndex"
+    aria-label="Select page"
+    (page)="handlePageEvent($event)"
+  >
+  </mat-paginator>
+  </div>
   
-  <div class="row row-cols-1 row-cols-md-2 g-4">   
-  <div  *ngFor="let document of documents | filter:  searchText"  >
+</div>  
+
+
+ <!-- <div style="margin: 15px">   
+  <div  class="my-container-wrap">
    <mat-card
-       matRipple 
-       matRippleColor="rgba(131, 167, 185, 0.22)" 
-       style="padding: 2rem; margin: 2rem; min-width: 20rem;">
+       matRipple class ="example-card"
+       matRippleColor="rgba(131, 167, 185, 0.22)"  
+       style="padding: 2rem; margin: 2rem; max-width: 20rem;" *ngFor="let document of documents | filter:  searchText">
     <mat-card-content style="padding-bottom: 1rem;">
         <small>{{ document.feedauthor }}</small>
         <br>
@@ -50,9 +98,11 @@
         <mat-list-item style="margin: 0%;padding: 0px;">
           <div *ngIf="document.comment != null">
           <img  matListItemAvatar  style="max-width: 8%; display:inline;" src="https://img.freepik.com/free-psd/3d-illustration-person-with-glasses_23-2149436190.jpg?w=826&t=st=1698445713~exp=1698446313~hmac=1c05338583bca16e6cb7c7f19e29802581f8051c64605b6370abe454b9d99f74">
-          <small display:inline style="font-weight: bold;margin-left: 3%;font-size:.9em ;">{{ document.comment[0].email}}</small>
-          <span style=" font-size: .85em; margin-left: 3px;" matListItemLine>{{ document.comment[0].body}}</span>
+          
+          <small display:inline style="font-weight: bold;font-size:.9em ;margin-right: 3%;">{{ document.comment[0].author}}</small>
+          <span style=" font-size: .85em; margin-left: 3px;" >{{ document.comment[0].body}}</span>
           </div>
+          
           <div *ngIf="document.comment != null">
           <img matListItemAvatar style="max-width: 8%;" src="https://img.freepik.com/free-psd/3d-illustration-person_23-2149436179.jpg?w=826&t=st=1698442950~exp=1698443550~hmac=b8725e03e292a4e23e005d6e34f57767c2d16e82c0cfff6c23f4108931c77eb7">
           <small display:inline style="font-weight: bold;margin-left: 3%;">{{ document.comment[1].email}}</small>
@@ -73,17 +123,19 @@
       </mat-list>
         <mat-card-actions>
         <div class="example-button-row" style="margin-top: 10px">
-        <button mat-raised-button>Edit</button>
+        <button mat-raised-button (click)="edit(document)">Edit</button>
         <button mat-raised-button style="margin-left: 15px" >Comment</button>
     </div></mat-card-actions>
       </mat-card-content>
       <mat-card-footer>
         <small style="padding: 1rem;">{{document.time}}</small>
       </mat-card-footer>
-    </mat-card>
+    </mat-card> 
 
-</div>
-</div>
+    
+  </div>
+</div>-->
+  
 
 
 

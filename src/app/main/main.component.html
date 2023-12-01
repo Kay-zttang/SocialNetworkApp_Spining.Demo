@@ -9,7 +9,9 @@
             <br>
             <br>
             <div class="row">
-              <div class="col">
+              <div class="col-3">
+                <mat-card style="max-width: 15rem;">
+                  <mat-card-content style="padding-bottom: 1rem;">
                 <div class="btn-toolbar" >
             <button class="btn btn-primary pull-left" id="backtoauth"  
             class="btn btn-primary" value="Landing" (click)="toLanding()">Log out</button>
@@ -39,13 +41,16 @@
                 <input type="submit" id="updatesta" class="form-control btn btn-primary" value="Update">
             </div>
           </form>
-
+        </mat-card-content>
+        </mat-card>
           <br>
          
-          <h4>Following</h4>
-              <div>
+          <mat-toolbar color="primary" style="width: 15rem; height: 50px;">
+            <span>Following</span>
+          </mat-toolbar>
+              <div style="margin-top: 20px;">
                 <div  *ngFor="let profile of profiles" >
-                <mat-card >
+                <mat-card style="max-width: 15rem;">
                     <mat-card-content style="padding-bottom: 1rem;">
                             <img mat-card-md-image 
                             src={{profile.img}} class="figure-img img-fluid rounded" >
@@ -76,7 +81,8 @@
                 </div>
               </form>
               </div>
-              </div>
+              
+            </div>
               <div class="col-9">
                 <app-posts [message]="userid">
                 </app-posts>

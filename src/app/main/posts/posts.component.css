@@ -1,7 +1,22 @@
-.mat-list-item.mat-list-item-word-wrap {
-    height: initial !important;
+
+
+  .my-container-wrap {
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
-.mat-list-item-word-wrap .mat-line {
-    word-wrap: break-word !important; 
-    white-space: pre-wrap !important;
+
+  .my-container-wrap-center {
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
+  
+  .example-card {
+    justify-self: left;
+    width: 17rem;
+    margin: 1rem;
+  }
+
