@@ -3,11 +3,11 @@
     <head></head>
 <body>
 <div>
-    <input  
+    <!--<input  
          matInput 
          [(ngModel)]="searchText" 
          placeholder="Search" 
-         autocomplete="off"  class="mt-1 col-md-12 mb-3" name="searchplace">
+         autocomplete="off"  class="mt-1 col-md-12 mb-3" name="searchplace">-->
 <div class="row" >
 <div class="col-10">
     <form class="d-inline" id = 'feedForm' [formGroup]="feedForm"  (ngSubmit)="addfeed()">
@@ -30,23 +30,29 @@
     </label>
   </div>
 </div></div>
-<mat-form-field class="example-form-field">
-  <mat-label>Search By Car Name</mat-label>
-  <input matInput type="text" [formControl]="searchKey">
-  <button  matSuffix mat-icon-button aria-label="Clear" (click)="searchByName()" >
-    <mat-icon>search</mat-icon>
-  </button>
-</mat-form-field>
+
 <mat-divider></mat-divider>
 
-<mat-toolbar color="primary" style="height: 50px;">
-  <span>Feeds</span>
-</mat-toolbar>
+
 
 
 
 <div style=" justify-items: center; ">
   <div class="my-container-wrap" >
+    <mat-toolbar color="primary" style="height: 50px;margin-bottom: 25px;">
+      <span>Feeds</span>
+    </mat-toolbar>
+
+    <mat-form-field class="example-form-field" style="width: 91%;">
+      <mat-label>Search for author and/or feed context</mat-label>
+      <input matInput type="text" [formControl]="searchKey">
+      <button  matSuffix mat-icon-button aria-label="Clear" (click)="searchByName()" >
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+
+   
+
     <mat-card class="example-card" *ngFor="let document of documents | filter:  searchText">
       <mat-card-header style="margin-bottom: 8px;" >
         <mat-card-title >{{ document.feedauthor }}</mat-card-title>
