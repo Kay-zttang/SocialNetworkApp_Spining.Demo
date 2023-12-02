@@ -80,6 +80,11 @@ export class PostsService {
       return this.http.post("http://localhost:3000/article",
       fd,{ withCredentials: true })
   }
+
+  editarticle(id, editmsg){
+    return this.http.put("http://localhost:3000/articles/"+id,{text:editmsg},{ withCredentials: true })
+  }
+
   /////////////////////////////////////////////////////////////////
 
 

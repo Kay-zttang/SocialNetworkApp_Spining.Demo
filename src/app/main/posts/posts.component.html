@@ -51,9 +51,9 @@
       </button>
     </mat-form-field>
 
-   
+ 
 
-    <mat-card class="example-card" *ngFor="let document of documents | filter:  searchText">
+    <mat-card class="example-card" *ngFor="let document of documents | filter:  searchText ">
       <mat-card-header style="margin-bottom: 8px;" >
         <mat-card-title >{{ document.feedauthor }}</mat-card-title>
       </mat-card-header>
@@ -61,11 +61,33 @@
       <mat-card-content>
         <p>{{document.feedtext}}</p>
         <p align="right" style="font-size: small;">{{document.time}}</p>
+
+        
+        <p align="center"><mat-form-field 
+          class="example-form-field" style="width: 91%;margin-top:10px;">
+            <mat-label>Edit your Feed.</mat-label>
+            <input matInput [formControl]="edFeed">
+            <button  matSuffix mat-icon-button aria-label="Clear" (click)="editfeed(document)" >
+              <mat-icon>open_in_browser</mat-icon>
+            </button>
+          </mat-form-field></p>
+       
+          
+        
+<!-- 
         <mat-card-actions>
           <div class="example-button-row" style="margin-top: 10px">
-          <button mat-raised-button (click)="edit(document)">Edit</button>
+         <button mat-raised-button (click)="edit(document)">Edit</button>
           <button mat-raised-button style="margin-left: 15px" >Comment</button>
-      </div></mat-card-actions>
+      </div></mat-card-actions>-->
+      <div align="center" ><mat-form-field class="example-form-field" style="width: 91%;">
+        <mat-label>Add your Comments.</mat-label>
+        <input matInput>
+        <button  matSuffix mat-icon-button aria-label="Clear" (click)="addcomment(document)" >
+          <mat-icon>comment</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
       </mat-card-content>
       <mat-card-footer style="margin-bottom: 5px;">
         <small style="padding: 1rem; margin-bottom: 1rem;">Footer here</small>
