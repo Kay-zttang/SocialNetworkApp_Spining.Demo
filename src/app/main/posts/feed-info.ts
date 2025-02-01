@@ -1,3 +1,10 @@
+interface CommentInfo{
+    commentid: string;
+    commentauthor: string;
+    commentbody: string;
+    commenttime: Date;
+}
+
 export class FeedInfo {
     public img: string;
     public feedid: string;
@@ -5,9 +12,11 @@ export class FeedInfo {
     public feedtext:string;
     public time: any;
     public timestamp: any;
-    public comment: object|null;
+    public comment: CommentInfo[];
 
-    constructor(img:string, id: string,name:string, text: string, time: any, timestamp:any, comment:object){
+    
+
+    constructor(img:string, id: string,name:string, text: string, time: any, timestamp:any, comment){
         this.img = img;
         this.feedid = id;
         this.feedauthor = name;
@@ -15,5 +24,8 @@ export class FeedInfo {
         this.time = time;
         this.timestamp = timestamp;
         this.comment = comment;
+        }
+        
     }
-}
+
+

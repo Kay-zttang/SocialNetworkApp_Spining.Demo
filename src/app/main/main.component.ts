@@ -68,6 +68,7 @@ export class MainComponent implements OnInit{
 
   ngOnInit(): void {
     this.pServ.Userfollwing().subscribe(res=>{
+      if(Object.values(res)[1]){
       Object.values(res)[1].forEach(entry=>{
         let i = 1;
         this.pServ.Userstatus(entry).subscribe(data=>{
@@ -77,7 +78,7 @@ export class MainComponent implements OnInit{
           })
       })})
 
-    });
+    }});
 
     
   }
@@ -98,7 +99,7 @@ export class MainComponent implements OnInit{
   
   toLanding(){
     this.pServ.logoutUser().subscribe(res=>{
-      console.log(Object.values(res)[1])
+      console.log(res)
     })
     this.router.navigate(['/auth']);
   }

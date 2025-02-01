@@ -29,7 +29,7 @@ export class AuthService {
   }*/
   
   loginUser(username, userpwd){
-    return this.http.post("http://localhost:3000/login",
+    return this.http.post("https://spiningserver-507fe40b9b38.herokuapp.com/login",
     {
         "username": username,
         "password": userpwd,
@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   regiUser(username, useremail, userdob, userphone, userzipcode, userpwd){
-    return this.http.post("http://localhost:3000/register",
+    return this.http.post("https://spiningserver-507fe40b9b38.herokuapp.com/register",
     {
         "username": username,
         "email": useremail,

@@ -61,18 +61,42 @@
       <mat-card-content>
         <p>{{document.feedtext}}</p>
         <p align="right" style="font-size: small;">{{document.time}}</p>
+        <mat-list-item *ngFor="let talk"></mat-list-item>
 
-        
         <p align="center"><mat-form-field 
-          class="example-form-field" style="width: 91%;margin-top:10px;">
+          class="example-form-field" style="width: 91%;margin-top:10px; ">
             <mat-label>Edit your Feed.</mat-label>
             <input matInput [formControl]="edFeed">
             <button  matSuffix mat-icon-button aria-label="Clear" (click)="editfeed(document)" >
               <mat-icon>open_in_browser</mat-icon>
             </button>
           </mat-form-field></p>
-       
-          
+        
+        <mat-expansion-panel >
+        <mat-expansion-panel-header>
+        <mat-panel-title>
+        Comments
+        </mat-panel-title>
+        <mat-panel-description>
+        </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-list-item *ngFor="let child of document.comment" >
+          <p style="font-size: smaller; margin-bottom: 0px;">{{child.commentbody}}</p>
+          <div style="display: flex; justify-content: right;">
+          <p style="font-size: smaller;font-weight: bold;margin-right: 5px;">{{child.commentauthor}}</p>
+          <P style="font-size:x-small">{{changedate(child.commenttime)}}</P>
+          </div>
+        </mat-list-item>
+
+        <div align="center" ><mat-form-field class="example-form-field" style="width: 91%; margin-top: 20px;">
+          <mat-label style="font-size: small;">New Comments.</mat-label>
+          <input matInput [formControl]="edComm">
+          <button  matSuffix mat-icon-button aria-label="Clear" (click)="addcomment(document)" >
+            <mat-icon>comment</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+        </mat-expansion-panel>
         
 <!-- 
         <mat-card-actions>
@@ -80,17 +104,10 @@
          <button mat-raised-button (click)="edit(document)">Edit</button>
           <button mat-raised-button style="margin-left: 15px" >Comment</button>
       </div></mat-card-actions>-->
-      <div align="center" ><mat-form-field class="example-form-field" style="width: 91%;">
-        <mat-label>Add your Comments.</mat-label>
-        <input matInput>
-        <button  matSuffix mat-icon-button aria-label="Clear" (click)="addcomment(document)" >
-          <mat-icon>comment</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
+      
       </mat-card-content>
-      <mat-card-footer style="margin-bottom: 5px;">
-        <small style="padding: 1rem; margin-bottom: 1rem;">Footer here</small>
+      <mat-card-footer style="margin-bottom: 30px;">
+       
       </mat-card-footer>
     </mat-card>
     

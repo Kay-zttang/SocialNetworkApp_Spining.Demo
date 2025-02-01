@@ -97,10 +97,9 @@ export class ProfileComponent implements OnInit{
   }
 
   handleImageChange(e){
-    //console.log(e.target.files[0])
     const fd = new FormData();
     fd.append('image', e.target.files[0]);
-    this.http.put("http://localhost:3000/avatar", fd,{ withCredentials: true }).subscribe(res=>{
+    this.http.put("https://spiningserver-507fe40b9b38.herokuapp.com/avatar", fd,{ withCredentials: true }).subscribe(res=>{
       this.useravatar = Object.values(res)[1];
     });
   }

@@ -12,41 +12,41 @@ export class ProfileService {
 
   Useremail(){
     //const params = new HttpParams().set('user', username);
-    return this.http.get("http://localhost:3000/email/",{ withCredentials: true })
+    return this.http.get("https://spiningserver-507fe40b9b38.herokuapp.com/email/",{ withCredentials: true })
   }
 
   Useravatar(){
     //const params = new HttpParams().set('user', username);
-    return this.http.get("http://localhost:3000/avatar/",{ withCredentials: true })
+    return this.http.get("https://spiningserver-507fe40b9b38.herokuapp.com/avatar/",{ withCredentials: true })
   }
 
   Userphone(){
     //const params = new HttpParams().set('user', username);
-    return this.http.get("http://localhost:3000/phone/",{ withCredentials: true })
+    return this.http.get("https://spiningserver-507fe40b9b38.herokuapp.com/phone/",{ withCredentials: true })
   }
 
   Userzipcode(){
     //const params = new HttpParams().set('user', username);
-    return this.http.get("http://localhost:3000/zipcode/",{ withCredentials: true })
+    return this.http.get("https://spiningserver-507fe40b9b38.herokuapp.com/zipcode/",{ withCredentials: true })
   }
 
   NewEmail(email){
-    return this.http.put("http://localhost:3000/email",
+    return this.http.put("https://spiningserver-507fe40b9b38.herokuapp.com/email",
     {"email": email},{ withCredentials: true })
   }
 
   NewPhone(phone){
-    return this.http.put("http://localhost:3000/phone",
+    return this.http.put("https://spiningserver-507fe40b9b38.herokuapp.com/phone",
     {"phone": phone},{ withCredentials: true })
   }
 
   NewZipcode(zipcode){
-    return this.http.put("http://localhost:3000/zipcode",
+    return this.http.put("https://spiningserver-507fe40b9b38.herokuapp.com/zipcode",
     {"zipcode": zipcode},{ withCredentials: true })
   }
 
   NewPwd(pwd){
-    return this.http.put("http://localhost:3000/password",
+    return this.http.put("https://spiningserver-507fe40b9b38.herokuapp.com/password",
     {"password": pwd},{ withCredentials: true })
   }
 

@@ -48,7 +48,6 @@ export class AuthComponent implements OnInit {
           //console.log('correct login')
           this.checkuser = true;
           this.warningpwd = false;
-          this.cServ.set('maincookie', JSON.stringify(msg))
           this.router.navigate(['/main']);
         }
         else if(msg[1]=='password not correct'){

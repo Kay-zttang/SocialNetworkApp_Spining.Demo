@@ -9,6 +9,15 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table'
 import { PageEvent } from '@angular/material/paginator';
 
+class CommentInfo {
+  constructor(public commentauthor: string, public commentid: string, 
+    public commentbody: string, public commenttime: Date) {
+    this.commentauthor = commentauthor;
+    this.commentid = commentid;
+    this.commentbody = commentbody;
+    this.commenttime = commenttime;
+  }
+}
 
 @Component({
   selector: 'app-posts',
@@ -19,8 +28,11 @@ export class PostsComponent implements OnInit{
   @Input() message : number;
   searchKey = new FormControl('');
   edFeed = new FormControl('');
+  edComm = new FormControl('');
 
   documents: FeedInfo[]=[];
+  comms: CommentInfo[]=[];
+
   feedForm: FormGroup;
   loginuser: string;
   currenttimestamp: any;
@@ -45,25 +57,38 @@ export class PostsComponent implements OnInit{
 
     this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, null).subscribe(res=>{
       this.totalRecords = Object.values(res)[1];
+      console.log(res)
+      if(Object.values(res)[0]){
       Object.values(res)[0].forEach(entry=>{
+        this.comms = [];
         this.loginuser = entry.author; 
         if(entry.comments.length==0){
           entry.comments = null
         }
+        else{
+          for(let i in entry.comments){
+            //onsole.log(entry.comments[i])
+            this.comms.push(new CommentInfo(entry.comments[i].author, entry.comments[i]._id, 
+              entry.comments[i].body, entry.comments[i].date))
+          }
+        }
         this.documents.push(new FeedInfo(entry.pic,
-        entry._id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
+        entry._id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), this.comms));
         this.checkorder()
+      
        ;})
        
        
-    })
+    }})
 
     
 
     
   }
 
-  
+  changedate(date){
+    return new Date(date).toDateString()
+  }
 
 
   get newfeed(){
@@ -101,19 +126,27 @@ export class PostsComponent implements OnInit{
   searchfeed(){
     this.totalRecords = 0;
     this.pageIndex = 0;
-    this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, null).subscribe(res=>{
+    this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, null).subscribe(res=>{  
       this.documents = [];
       this.totalRecords = Object.values(res)[1];
       Object.values(res)[0].forEach(entry=>{
+        this.comms = [];
         this.loginuser = entry.author; 
         if(entry.comments.length==0){
           entry.comments = null
         }
+        else{
+          for(let i in entry.comments){
+            console.log()
+            this.comms.push(new CommentInfo(entry.comments[i].author, entry.comments[i]._id, 
+              entry.comments[i].body, entry.comments[i].date))
+          }
+        }
         this.documents.push(new FeedInfo(entry.pic,
-        entry._id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
+        entry._id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), this.comms));
         this.checkorder()
-       ;})
-      })
+        
+       ;})})
   }
 
   searchByName() {
@@ -124,8 +157,16 @@ export class PostsComponent implements OnInit{
       this.totalRecords = Object.values(res)[1];
       Object.values(res)[0].forEach(entry=>{
         this.loginuser = entry.author; 
+        this.comms = [];
         if(entry.comments.length==0){
           entry.comments = null
+        }
+        else{
+          for(let i in entry.comments){
+            console.log()
+            this.comms.push(new CommentInfo(entry.comments[i].author, entry.comments[i]._id, 
+              entry.comments[i].body, entry.comments[i].date))
+          }
         }
         this.documents.push(new FeedInfo(entry.pic,
         entry._id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
@@ -148,8 +189,16 @@ export class PostsComponent implements OnInit{
       this.totalRecords = Object.values(res)[1];
       Object.values(res)[0].forEach(entry=>{
         this.loginuser = entry.author; 
+        this.comms = [];
         if(entry.comments.length==0){
           entry.comments = null
+        }
+        else{
+          for(let i in entry.comments){
+            console.log()
+            this.comms.push(new CommentInfo(entry.comments[i].author, entry.comments[i]._id, 
+              entry.comments[i].body, entry.comments[i].date))
+          }
         }
         this.documents.push(new FeedInfo(entry.pic,
         entry._id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
@@ -161,30 +210,18 @@ export class PostsComponent implements OnInit{
 
   editfeed(document){
     this.pServ.editarticle(document.feedid, this.edFeed.value).subscribe(res=>{
-      console.log(res)
-      this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, null).subscribe(res=>{
-        this.documents = [];
-        this.totalRecords = Object.values(res)[1];
-        Object.values(res)[0].forEach(entry=>{
-          this.loginuser = entry.author; 
-          if(entry.comments.length==0){
-            entry.comments = null
-          }
-          this.documents.push(new FeedInfo(entry.pic,
-          entry._id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));
-          this.checkorder()
-          this.edFeed.reset();
-         ;})
-        })
-    })
-    //document.feedtext = this.edFeed.value;
-    //document.feedtime = new Date().toDateString();
-    //document.timestamp = new Date().getTime();
-    
-    
+      this.edFeed.reset();
+      this.searchfeed();
+      
+    })   
   }
-  addcomment(document){
 
+
+  addcomment(document){
+    this.pServ.addcomment(document.feedid, this.edComm.value).subscribe(res=>{
+      this.edComm.reset();
+      this.searchfeed();
+    })
   }
 
   handleFeedImageChange(e){
@@ -199,8 +236,16 @@ export class PostsComponent implements OnInit{
     this.pServ.Userarticle('',this.pageIndex+1, this.pageSize, null).subscribe(res=>{
       Object.values(res)[0].forEach(entry=>{
         this.loginuser = entry.author; 
+        this.comms = [];
         if(entry.comments.length==0){
           entry.comments = null
+        }
+        else{
+          for(let i in entry.comments){
+            console.log(entry.comments[i])
+            this.comms.push(new CommentInfo(entry.comments[i].author, entry.comments[i]._id, 
+              entry.comments[i].body, entry.comments[i].date))
+          }
         }
         this.documents.push(new FeedInfo(entry.pic,
         entry._id, entry.author, entry.text, new Date(entry.date).toDateString(), Date.parse(entry.date), entry.comments));

@@ -7,14 +7,15 @@ import { MatPaginatorModule} from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from "@angular/material/button"; 
 import { MatListModule} from '@angular/material/list';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule} from '@angular/material/grid-list';
 import { NgArrayPipesModule } from 'ngx-pipes';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatIconModule} from '@angular/material/icon';
+import { MatDividerModule} from '@angular/material/divider';
+import { MatIconModule} from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule} from '@angular/material/input';
+import { MatExpansionModule} from '@angular/material/expansion';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,6 +51,7 @@ import {  LocationStrategy, HashLocationStrategy } from '@angular/common';
     MatToolbarModule,
     MatInputModule,
     MatFormFieldModule,
+    MatExpansionModule,
     MatListModule,
     MatGridListModule,
     MatPaginatorModule,
